@@ -3,11 +3,11 @@ import { Row, Col, Avatar, Divider } from "antd";
 import Link from "next/link";
 
 // Components
-import MainBanner from "../components/MainBanner";
+import MainBanner from "../../components/MainBanner";
 
-export default function Home() {
+export default function Posts() {
   return (
-    <div className="home-page">
+    <div className="posts-page">
       {/* Main Banner */}
       <MainBanner />
       {/* Main Banner End */}
