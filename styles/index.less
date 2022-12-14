@@ -1045,6 +1045,81 @@ h6 {
 }
 /** Main Inner Banner End **/
 
+/** Oauth Pages **/
+.oauth-page {
+  padding: @padding-lg + 6;
+  min-height: 100vh;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  @media (max-width: 767px) {
+    height: 100%;
+  }
+  .oauth-page-wrap {
+    width: 450px;
+    margin: 0 auto;
+    @media (max-width: 600px) {
+      width: 100%;
+    }
+  }
+  .logo {
+    display: inline-block;
+    margin-bottom: @margin-md + 4;
+    img {
+      max-width: 65px;
+    }
+  }
+  .title {
+    font-weight: 400 !important;
+    margin-bottom: @margin-lg + 6;
+    font-size: @font-size-lg + 8;
+    @media (max-width: 1100px) {
+      font-size: @font-size-lg + 6;
+    }
+    @media (max-width: 767px) {
+      font-size: @font-size-lg + 4;
+    }
+  }
+  a {
+    font-weight: 600;
+  }
+  .account-text {
+    margin-bottom: @margin-md + 4;
+  }
+  .ant-form-item-control-input-content {
+    text-align: left;
+  }
+  .google-btn-wrap {
+    margin-bottom: @margin-lg;
+    button {
+      opacity: 1 !important;
+      border-radius: @border-radius-base + 2;
+      height: 64px !important;
+      padding: 0 @padding-lg + 6 !important;
+      justify-content: center !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      width: 100% !important;
+      font-size: @font-size-lg !important;
+      font-family: @font-family !important;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, .15) !important;
+      div {
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      span {
+        flex: 1 1 100%;
+      }
+      @media (max-width: 1410px) {
+        height: 54px !important;
+      }
+    }
+  }
+}
+/** Oauth Pages End **/
+
 /** Home Page **/
 .post-section {
   overflow: hidden;
