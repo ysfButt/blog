@@ -452,6 +452,18 @@ h6 {
   }
   /** Theme Text Color **/
 
+  /** Theme Text Weight **/
+  .t-w-5 {
+    font-weight: 500;
+  }
+  .t-w-6 {
+    font-weight: 600;
+  }
+  .t-w-7 {
+    font-weight: 700;
+  }
+  /** Theme Text Weight End **/
+
   /** Theme Background Color **/
   .bg-black {
     background: @black;
@@ -765,17 +777,87 @@ h6 {
   }
 }
 
-/************************************
-*************************************
-  Global Style 
-*************************************
-*************************************/
-
-/** Layout **/
-.layout {
-  background: @white;
+// Global Table 
+.table {
+  width: 100%;
+  background: transparent;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  @media (max-width: 700px) {
+    min-width: 850px;
+  }
+  // tr {
+  //   th,
+  //   td {
+  //     border-bottom: @border-width-base @border-style-base #e5e5e5;
+  //   }
+  // }
+  thead {
+    // background-color: #ECF5FF;
+    text-align: left;
+    tr {
+      th {
+        height: 57px;
+        line-height: @line-height-base;
+        padding: @padding-sm + 3;
+        font-size: @font-size-base;
+        font-weight: 500;
+        text-transform: capitalize;
+        color: @black;
+      }
+    }
+  }
+  tbody {
+    tr {
+      td {
+        background: @white;
+        height: 53px;
+        padding: @padding-sm + 3;
+        position: relative;
+        color: rgba(@black, .8);
+        font-size: @font-size-base;
+        vertical-align: top;
+        &:first-child {
+          border-bottom-left-radius: @border-radius-base + 2;
+        }
+        &:last-child {
+          border-bottom-right-radius: @border-radius-base + 2;
+        }
+      }
+    }
+  }
+  &.table-w-border-bottom {
+    tr {
+      td,
+      th {
+        border-left: 0;
+      }
+    }
+  }
+  &.table-border-0 {
+    tr {
+      border-bottom: 0;
+      td,
+      th {
+        border-left: 0;
+      }
+    }
+  }
+  &.table-background-odd {
+    tr {
+      &:nth-child(odd) {
+        background: @background-color-base;
+      }
+    }
+  }
+  &.table-background-even {
+    tr {
+      &:nth-child(even) {
+        background: @background-color-base;
+      }
+    }
+  }
 }
-/** Layout End **/
 
 /** Draft Editor **/
 .rdw-editor-wrapper {
@@ -804,6 +886,19 @@ h6 {
   }
 }
 /** Draft Editor End **/
+
+/************************************
+*************************************
+  Global Style 
+*************************************
+*************************************/
+
+/** Layout **/
+.layout {
+  background: @white;
+}
+/** Layout End **/
+
 
 /** Header **/
 .main-header {

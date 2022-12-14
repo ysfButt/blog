@@ -117,6 +117,8 @@ h6 {
   /** /.Theme Border **/
   /** Theme Text Color **/
   /** Theme Text Color **/
+  /** Theme Text Weight **/
+  /** Theme Text Weight End **/
   /** Theme Background Color **/
   /** /.Theme Background Color **/
   /** Tag **/
@@ -1412,6 +1414,27 @@ h6 {
 .ant-tooltip .text-purple {
   color: #A752E4 !important;
 }
+.layout .t-w-5,
+.ant-popover .t-w-5,
+.ant-modal .t-w-5,
+.ant-drawer .t-w-5,
+.ant-tooltip .t-w-5 {
+  font-weight: 500;
+}
+.layout .t-w-6,
+.ant-popover .t-w-6,
+.ant-modal .t-w-6,
+.ant-drawer .t-w-6,
+.ant-tooltip .t-w-6 {
+  font-weight: 600;
+}
+.layout .t-w-7,
+.ant-popover .t-w-7,
+.ant-modal .t-w-7,
+.ant-drawer .t-w-7,
+.ant-tooltip .t-w-7 {
+  font-weight: 700;
+}
 .layout .bg-black,
 .ant-popover .bg-black,
 .ant-modal .bg-black,
@@ -2059,16 +2082,61 @@ h6 {
 .ant-btn[disabled] .anticon {
   color: rgba(0, 0, 0, 0.25) !important;
 }
-/************************************
-*************************************
-  Global Style 
-*************************************
-*************************************/
-/** Layout **/
-.layout {
-  background: #fff;
+.table {
+  width: 100%;
+  background: transparent;
+  border-collapse: separate;
+  border-spacing: 0 10px;
 }
-/** Layout End **/
+@media (max-width: 700px) {
+  .table {
+    min-width: 850px;
+  }
+}
+.table thead {
+  text-align: left;
+}
+.table thead tr th {
+  height: 57px;
+  line-height: 20px;
+  padding: 15px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+  color: #000;
+}
+.table tbody tr td {
+  background: #fff;
+  height: 53px;
+  padding: 15px;
+  position: relative;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 14px;
+  vertical-align: top;
+}
+.table tbody tr td:first-child {
+  border-bottom-left-radius: 6px;
+}
+.table tbody tr td:last-child {
+  border-bottom-right-radius: 6px;
+}
+.table.table-w-border-bottom tr td,
+.table.table-w-border-bottom tr th {
+  border-left: 0;
+}
+.table.table-border-0 tr {
+  border-bottom: 0;
+}
+.table.table-border-0 tr td,
+.table.table-border-0 tr th {
+  border-left: 0;
+}
+.table.table-background-odd tr:nth-child(odd) {
+  background: #F8F9FF;
+}
+.table.table-background-even tr:nth-child(even) {
+  background: #F8F9FF;
+}
 /** Draft Editor **/
 .rdw-editor-wrapper .rdw-editor-toolbar {
   border-radius: 4px 0 0 0;
@@ -2092,6 +2160,16 @@ h6 {
   display: none;
 }
 /** Draft Editor End **/
+/************************************
+*************************************
+  Global Style 
+*************************************
+*************************************/
+/** Layout **/
+.layout {
+  background: #fff;
+}
+/** Layout End **/
 /** Header **/
 .main-header.ant-layout-header {
   background: transparent;
