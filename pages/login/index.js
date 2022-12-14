@@ -1,7 +1,6 @@
 import React from "react";
-import { Divider, Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { GoogleLogin } from 'react-google-login';
 
 export default function Login() {
   return (
@@ -11,13 +10,6 @@ export default function Login() {
           <img src="/images/logo.png" alt="" />
         </a>
         <h2 className="title">Login to your account</h2>
-        {/* <div className="google-btn-wrap text-center">
-          <GoogleLogin
-            buttonText="Sign in with Google"
-            cookiePolicy={'single_host_origin'}
-          />
-        </div>
-        <Divider>Or</Divider> */}
         <Form
           name="login"
           layout="vertical"
