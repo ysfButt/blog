@@ -777,6 +777,34 @@ h6 {
 }
 /** Layout End **/
 
+/** Draft Editor **/
+.rdw-editor-wrapper {
+  .rdw-editor-toolbar {
+    border-radius: @border-radius-base 0 0 0;
+    padding: @padding-xs + 2 @padding-xss + 1;
+    border-color: @border-color-base;
+    border-bottom: 0;
+    margin-bottom: 0;
+  }
+  .rdw-editor-main {
+    border: @border-width-base @border-style-base @border-color-base;
+    border-radius: 0 0 @border-radius-base @border-radius-base;
+    padding: 0 @padding-xs + 2;
+    .public-DraftEditor-content {
+      & > div {
+        height: 150px;
+        overflow-y: scroll !important;
+        -ms-overflow-style: none;  // IE 10+
+        scrollbar-width: none;  // Firefox
+        &::-webkit-scrollbar { 
+          display: none;  // Safari and Chrome
+        }
+      }
+    }
+  }
+}
+/** Draft Editor End **/
+
 /** Header **/
 .main-header {
   &.ant-layout-header {

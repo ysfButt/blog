@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-const MainBanner = (props) => (
+const MainBanner = ({ title = 'Tips, best practices, and updates' }) => (
   <div className="main-banner">
     <div className="container">
       <div className="caption">
@@ -12,7 +12,7 @@ const MainBanner = (props) => (
           width={144} // Desired size with correct aspect ratio
           alt="Logo"
         />
-        <p>Tips, best practices, and updates</p>
+        <p>{title}</p>
       </div>
     </div>
   </div>

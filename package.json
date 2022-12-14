@@ -11,11 +11,13 @@
   "dependencies": {
     "antd": "^4.20.5",
     "concurrently": "^7.6.0",
+    "draft-js": "^0.11.7",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
     "next": "13.0.6",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-draft-wysiwyg": "^1.15.0"
   },
   "devDependencies": {
     "less": "^4.1.3",

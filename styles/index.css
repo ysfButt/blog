@@ -2069,6 +2069,29 @@ h6 {
   background: #fff;
 }
 /** Layout End **/
+/** Draft Editor **/
+.rdw-editor-wrapper .rdw-editor-toolbar {
+  border-radius: 4px 0 0 0;
+  padding: 10px 5px;
+  border-color: #E3E8F1;
+  border-bottom: 0;
+  margin-bottom: 0;
+}
+.rdw-editor-wrapper .rdw-editor-main {
+  border: 1px solid #E3E8F1;
+  border-radius: 0 0 4px 4px;
+  padding: 0 10px;
+}
+.rdw-editor-wrapper .rdw-editor-main .public-DraftEditor-content > div {
+  height: 150px;
+  overflow-y: scroll !important;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.rdw-editor-wrapper .rdw-editor-main .public-DraftEditor-content > div::-webkit-scrollbar {
+  display: none;
+}
+/** Draft Editor End **/
 /** Header **/
 .main-header.ant-layout-header {
   background: transparent;
