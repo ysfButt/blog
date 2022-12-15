@@ -9,9 +9,13 @@ const MainFooter = (props) => {
 
   const router = useRouter();
 
+  const pathname = router.pathname;
+
+  const afterLastSlash = pathname.substring(pathname.lastIndexOf('/') + 1);
+
   return (
     <Footer className="main-footer">
-      {/* {router.pathname === "/posts/" && */}
+      {router.pathname === `/posts/${afterLastSlash}` &&
         <div className="main-footer-upper">
           <div className="container">
             <Row gutter={[30, 30]} className="footer-post">
@@ -67,7 +71,7 @@ const MainFooter = (props) => {
             </Row>
           </div>
         </div>
-      {/* } */}
+      }
       <div className="container">
         <Row gutter={[30, 30]}>
           <Col xs={24} md={12}>

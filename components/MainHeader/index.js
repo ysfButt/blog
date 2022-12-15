@@ -1,10 +1,16 @@
 import React, { useEffect } from 'react';
 import { Layout } from 'antd';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { LogoutOutlined } from '@ant-design/icons';
 
 const { Header } = Layout;
 
 const MainHeader = ({ extraClass = '' }) => {
+
+  const router = useRouter();
+
+  const socialShow = (router.pathname === "/newPost" || router.pathname === "/postsList")
   
   // Fixed Header UseEffect
   useEffect(() => {
@@ -32,34 +38,44 @@ const MainHeader = ({ extraClass = '' }) => {
               <img 
                 src='/images/logo.png'
                 alt="Email Main Site" 
-              />
+                />
             </a>
           </h1>
           {/* Logo End */}
 
           {/* Social Links */}
-          <ul className="social-links">
-            <li>
-              <Link href="/">
-                <FacebookIcon />
-              </Link>
-            </li>
-            <li>
-              <Link href="/">
-                <TwitterIcon />
-              </Link>
-            </li>
-            <li>
-              <Link href="/">
-                <WifiIcon />
-              </Link>
-            </li>
-            <li>
-              <Link href="/">
-                <MoonIcon />
-              </Link>
-            </li>
-          </ul>
+          {socialShow ?
+            <ul className="social-links">
+              <li>
+                <Link href="/">
+                  <LogoutOutlined />
+                </Link>
+              </li>
+            </ul>
+            :
+            <ul className="social-links">
+              <li>
+                <Link href="/">
+                  <FacebookIcon />
+                </Link>
+              </li>
+              <li>
+                <Link href="/">
+                  <TwitterIcon />
+                </Link>
+              </li>
+              <li>
+                <Link href="/">
+                  <WifiIcon />
+                </Link>
+              </li>
+              <li>
+                <Link href="/">
+                  <MoonIcon />
+                </Link>
+              </li>
+            </ul>
+          }
           {/* Social Links End */}
           
         </div>

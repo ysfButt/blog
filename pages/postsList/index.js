@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Space, Table } from 'antd';
-import { EditFilled, StarFilled } from '@ant-design/icons';
+import { EditFilled, StarFilled, DeleteFilled } from '@ant-design/icons';
 
 // Components
 import MainBanner from "../../components/MainBanner";
@@ -39,8 +39,10 @@ export default function PostsList() {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <Button type="success" ghost icon={<EditFilled />} />
+          <Button type="primary" ghost icon={<EditFilled />} />
           <Button type="warning" ghost icon={<StarFilled />} />
+          <Button type="success" ghost icon={<StarFilled />} />
+          <Button type="danger" ghost icon={<DeleteFilled />} /> 
         </Space>
       ),
     },
@@ -52,7 +54,7 @@ export default function PostsList() {
       title: 'John Brown',
       content: 32,
       createdAt: 'New York No. 1 Lake Park',
-      updatedAt: ['nice', 'developer'],
+      updatedAt: "12/12/2022",
       createdBy: 'arslan',
     },
     {
@@ -60,7 +62,7 @@ export default function PostsList() {
       title: 'Jim Green',
       content: 42,
       createdAt: 'London No. 1 Lake Park',
-      updatedAt: ['loser'],
+      updatedAt: "12/12/2022",
       createdBy: 'arslan',
     },
     {
@@ -68,7 +70,7 @@ export default function PostsList() {
       title: 'Joe Black',
       content: 32,
       createdAt: 'Sidney No. 1 Lake Park',
-      updatedAt: ['cool', 'teacher'],
+      updatedAt: "12/12/2022",
       createdBy: 'arslan',
     },
   ];
