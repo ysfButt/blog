@@ -35,3 +35,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+src/**/*.css
+src/**/*.map
+src/*.css.map
+!src/assets/*.css
+!src/assets/*.css.map
+public/screenshots/*.png

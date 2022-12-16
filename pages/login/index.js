@@ -3,6 +3,36 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 
 export default function Login() {
+
+  
+  // useEffect(() => {
+  //   leavesList({ name: 'yousaf s butt', designation: 'Front End Developer' });
+  // }, []);
+
+  const login = async (data) => {
+    let results = await fetch(`http://localhost:3000/api/posts`, {
+      method: "Post",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    results = await results.json();
+
+    console.log(results, data);
+
+    return results;
+
+  }
+
+  const onFinish = async (values) => {
+    const user = await login(values);
+    console.log('Success:', values, user);
+    localStorage.setItem('user', JSON.stringify(user));
+  };
+
+
   return (
     <div className="oauth-page login-page">
       <div className="oauth-page-wrap">
@@ -15,6 +45,7 @@ export default function Login() {
           layout="vertical"
           initialValues={{ remember: true }}
           autoComplete="off"
+          onFinish={onFinish}
         >
           <Form.Item
             name="email"
@@ -43,4 +74,34 @@ export default function Login() {
       </div>
     </div>
   )
+};
+
+export async function getServerSideProps(context) {
+  let res = await fetch("http://localhost:3000/api/posts", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  let allPosts = await res.json();
+
+  return {
+    props: { allPosts },
+  };
 }
+
+// export async function getServerSideProps(data) {
+//   let results = await fetch("http://localhost:3000/api/posts", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(data)
+//   });
+
+//   results = await results.json();
+
+//   console.log(results, data);
+
+//   return results;
+// }
