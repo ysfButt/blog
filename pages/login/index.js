@@ -10,7 +10,7 @@ export default function Login() {
   // }, []);
 
   const login = async (data) => {
-    let results = await fetch(`http://localhost:3000/api/posts`, {
+    let results = await fetch(`http://localhost:3000/api/users`, {
       method: "Post",
       headers: {
         'Content-Type': 'application/json'
@@ -28,6 +28,7 @@ export default function Login() {
 
   const onFinish = async (values) => {
     const user = await login(values);
+    // const user = await getServerSideProps(values);
     console.log('Success:', values, user);
     localStorage.setItem('user', JSON.stringify(user));
   };
@@ -76,19 +77,20 @@ export default function Login() {
   )
 };
 
-export async function getServerSideProps(context) {
-  let res = await fetch("http://localhost:3000/api/posts", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  let allPosts = await res.json();
+// export async function getServerSideProps(data) {
+//   let results = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/login`, {
+//     method: "POST",
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     // body: JSON.stringify(data)
+//   });
 
-  return {
-    props: { allPosts },
-  };
-}
+//   results = await results.json();
+
+//   // console.log({ results });
+//   return results;
+// }
 
 // export async function getServerSideProps(data) {
 //   let results = await fetch("http://localhost:3000/api/posts", {
