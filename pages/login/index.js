@@ -13,7 +13,7 @@ export default function Login() {
 
   const login = async (data) => {
     let results = await fetch(`/api/user`, {
-      method: "Post",
+      method: "POST",
       headers: {
         'Content-Type': 'application/json'
       },

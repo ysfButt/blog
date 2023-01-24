@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Button, Checkbox, Form, Input, DatePicker, message, Upload } from "antd";
 import { InboxOutlined } from '@ant-design/icons';
 // import { Editor, EditorState } from 'draft-js';
@@ -15,6 +15,26 @@ const { TextArea } = Input;
 const { Dragger } = Upload;
 
 export default function NewPost() {
+
+  // useEffect(() => {
+  //   postList({ title: 'first post' });
+  // }, []);
+
+  const postList = async (data) => {
+    let results = await fetch(`/api/posts`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    results = await results.json();
+
+    console.log(results, data);
+
+    return results;
+  }
 
   // const [editorState, setEditorState] = useState(
   //   () => EditorState.createEmpty(),
@@ -40,6 +60,12 @@ export default function NewPost() {
     },
   };
 
+  const onFinish = async (values) => {
+    const posts = await postList(values);
+    // const posts = await getServerSideProps(values);
+    console.log('Success:', values, posts);
+  };
+
   return (
     <div className="new-post-page">
       {/* Main Banner */}
@@ -52,6 +78,7 @@ export default function NewPost() {
         wrapperCol={{span: 16}}
         initialValues={{remember: true}}
         autoComplete="off"
+        onFinish={onFinish}
       >
         <section className="new-post-sec">
           <div className="container">
@@ -75,6 +102,7 @@ export default function NewPost() {
 
                       <Form.Item
                         label="Content"
+                        name="content"
                         className="mr-0"
                       >
                         <TextArea rows={4} />
