@@ -3,30 +3,43 @@
 import dbConnect from '../../lib/dbConnect';
 import User from '../../models/users';
 
-export default async function handler (req, res) {
-  const { method } = req
+export default async (req, res) => {
+  const { method } = req;
 
-  await dbConnect()
+  await dbConnect();
+
+  const { email, password } = req.body;
 
   switch (method) {
-    case 'GET':
+    case 'GET': {
       try {
-        const users = await User.find({})
+        const users = await User.findOne({ email, password }).exec();
+
         res.status(200).json({ success: true, data: users })
+        
       } catch (error) {
         res.status(400).json({ success: false })
       }
-      break
-    case 'POST':
+    }
+    break
+    case 'POST': {
       try {
-        const user = await User.create(req.body)
-        res.status(201).json({ success: true, data: user })
+        const users = await User.findOne({ email, password }).exec();
+
+        if (users) {
+          res.send({ success: true, message: "Logged in successfully!", users });
+        } else {
+          throw new Error("Invalid login credentials!");
+        }
+
       } catch (error) {
         res.status(400).json({ success: false })
       }
-      break
-    default:
+    }
+    break
+    default: {
       res.status(400).json({ success: false })
-      break
+    }
+    break
   }
 }

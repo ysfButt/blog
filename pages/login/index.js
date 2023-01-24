@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Checkbox, Form, Input } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 
 export default function Login() {
-
   
-  // useEffect(() => {
-  //   leavesList({ name: 'yousaf s butt', designation: 'Front End Developer' });
-  // }, []);
+  useEffect(() => {
+    let userLogin = localStorage.getItem('user');
+    let getItem = JSON.parse(userLogin);
+    let redrict = getItem?.success;
+    if (redrict === true) window.location.pathname = '/posts'
+  }, []);
 
   const login = async (data) => {
-    let results = await fetch(`http://localhost:3000/api/users`, {
+    let results = await fetch(`/api/user`, {
       method: "Post",
       headers: {
         'Content-Type': 'application/json'
@@ -20,10 +22,7 @@ export default function Login() {
 
     results = await results.json();
 
-    console.log(results, data);
-
     return results;
-
   }
 
   const onFinish = async (values) => {
@@ -31,8 +30,17 @@ export default function Login() {
     // const user = await getServerSideProps(values);
     console.log('Success:', values, user);
     localStorage.setItem('user', JSON.stringify(user));
-  };
 
+    let userLogin = localStorage.getItem('user');
+    let getItem = await JSON.parse(userLogin);
+    let redrict = getItem?.success;
+    if (redrict === false) {
+      window.location.pathname = '/login'
+      return
+    } else {
+      window.location.pathname = '/posts'
+    }
+  };
 
   return (
     <div className="oauth-page login-page">
