@@ -2,20 +2,39 @@
 
 import mongoose from 'mongoose'
 
+const MetaSchema = new mongoose.Schema({
+  title: String,
+  description: String,
+  focusedKeywords: String,
+  cononical: String,
+  noIndex: Boolean,
+  noFollow: Boolean,
+  tags: Array,
+  markup: Boolean
+});
+
 const PostSchema = new mongoose.Schema({
   // _id: mongoose.ObjectId,
-  title: String,
+  title: { type: String, required: true, },
   content: String,
-  // isPublished: Boolean,
-  // isStarred: Boolean,
-  // checkboxes: Object,
-  // meta: Object,
-  // socialMediaMeta: Object,
-  // excerpt: String,
-  // featuredImageUrl: String,
-  // createdAt: Boolean,
-  // updatedAt: Boolean,
-  // createdBy: Boolean
+  isPublished: Boolean,
+  isStarred: Boolean,
+  headings: Array,
+  meta: MetaSchema,
+  facebookMeta: {
+    title: String,
+    description: String,
+  },
+  twitterMeta: {
+    title: String,
+    description: String,
+  },
+  excerpt: String,
+  featuredImageUrl: String,
+  createdAt: Boolean,
+  updatedAt: Boolean,
+  publishedAt: Date,
+  createdBy: mongoose.ObjectId
 });
 
 module.exports = mongoose.models.Post || mongoose.model('Post', PostSchema)

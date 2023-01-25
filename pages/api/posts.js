@@ -8,7 +8,7 @@ export default async (req, res) => {
 
   await dbConnect();
 
-  const { title, content } = req.body;
+  const { title } = req.body;
 
   switch (method) {
     case 'GET':
@@ -21,12 +21,10 @@ export default async (req, res) => {
       break
     case 'POST':
       try {
-        console.log(title, content);
         const post = await Post.create(req.body);
-        console.log("post 1",post);
 
         if (title) {
-          res.send({ success: true, message: "Posts page Visible!" });
+          res.send({ success: true, message: "Posts page Visible!", data: post });
         } else {
           throw new Error("Posts page not Visible!");
         }

@@ -3,6 +3,7 @@ import { Row, Col, Button, Checkbox, Form, Input, DatePicker, message, Upload } 
 import { InboxOutlined } from '@ant-design/icons';
 // import { Editor, EditorState } from 'draft-js';
 // import { Editor } from "react-draft-wysiwyg";
+import moment from "moment";
 
 // Components
 import MainBanner from "../../components/MainBanner";
@@ -62,8 +63,10 @@ export default function NewPost() {
 
   const onFinish = async (values) => {
     const posts = await postList(values);
-    // const posts = await getServerSideProps(values);
     console.log('Success:', values, posts);
+
+    const text = values['publishedAt'] = moment(values.publishedAt).valueOf();
+    console.log(text);
   };
 
   return (
@@ -123,36 +126,42 @@ export default function NewPost() {
                       <h3 className="title">Meta:</h3>
                       <Form.Item
                         label="Title"
+                        name="meta.title"
                       >
                         <Input />
                       </Form.Item>
 
                       <Form.Item
                         label="Description"
+                        name="meta.description"
                       >
                         <TextArea rows={4} />
                       </Form.Item>
 
                       <Form.Item
                         label="Focused keyword"
+                        name="meta.focusedKeywords"
                       >
                         <Input />
                       </Form.Item>
 
                       <Form.Item
                         label="Canonical"
+                        name="meta.cononical"
                       >
                         <Input />
                       </Form.Item>
 
                       <Form.Item
                         label="noindex"
+                        name="meta.noIndex"
                         valuePropName="checked"
                       >
                         <Checkbox></Checkbox>
                       </Form.Item>
                       <Form.Item
                         label="nofollow"
+                        name="meta.noFollow"
                         valuePropName="checked"
                       >
                         <Checkbox></Checkbox>
@@ -160,12 +169,14 @@ export default function NewPost() {
 
                       <Form.Item
                         label="ALT Tag"
+                        name="meta.tags"
                       >
                         <Input />
                       </Form.Item>
 
                       <Form.Item
                         label="Schema Markup"
+                        name="meta.markup"
                         valuePropName="checked"
                       >
                         <Checkbox></Checkbox>
@@ -177,24 +188,28 @@ export default function NewPost() {
                       <h3 className="title">Social Media Meta:</h3>
                       <Form.Item
                         label="Facebook Title"
+                        name="facebookMeta.title"
                       >
                         <Input />
                       </Form.Item>
     
                       <Form.Item
                         label="Facebook Description"
+                        name="facebookMeta.description"
                       >
                         <TextArea rows={4} />
                       </Form.Item>
     
                       <Form.Item
                         label="Twitter Title"
+                        name="twitterMeta.title"
                       >
                         <Input />
                       </Form.Item>
     
                       <Form.Item
                         label="Twitter Description"
+                        name="twitterMeta.description"
                       >
                         <TextArea rows={4} />
                       </Form.Item>
@@ -218,6 +233,7 @@ export default function NewPost() {
                       </Form.Item>
                       <Form.Item
                         label="Published At"
+                        name="publishedAt"
                         labelCol={{
                           span: 24,
                         }}
@@ -271,6 +287,7 @@ export default function NewPost() {
                     <div className="new-post-aside">
                       <Form.Item
                         label="Featured Image"
+                        // name="featuredImageUrl"
                         labelCol={{
                           span: 24,
                         }}
@@ -287,6 +304,7 @@ export default function NewPost() {
                       </Form.Item>
                       <Form.Item
                         label="Excerpt"
+                        name="excerpt"
                         labelCol={{
                           span: 24,
                         }}
