@@ -16,7 +16,7 @@ const MetaSchema = new mongoose.Schema({
 const PostSchema = new mongoose.Schema({
   // _id: mongoose.ObjectId,
   title: { type: String, required: true, },
-  content: String,
+  description: { type: String, required: true, },
   isPublished: Boolean,
   isStarred: Boolean,
   headings: Array,
@@ -35,6 +35,6 @@ const PostSchema = new mongoose.Schema({
   updatedAt: Boolean,
   publishedAt: Date,
   createdBy: mongoose.ObjectId
-});
+}, { timestamps: true });
 
 module.exports = mongoose.models.Post || mongoose.model('Post', PostSchema)

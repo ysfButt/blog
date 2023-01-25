@@ -62,11 +62,11 @@ export default function NewPost() {
   };
 
   const onFinish = async (values) => {
+    values['publishedAt'] = moment(values.publishedAt).valueOf();
+    
     const posts = await postList(values);
-    console.log('Success:', values, posts);
 
-    const text = values['publishedAt'] = moment(values.publishedAt).valueOf();
-    console.log(text);
+    console.log('Success:', values, posts);
   };
 
   return (
@@ -105,7 +105,13 @@ export default function NewPost() {
 
                       <Form.Item
                         label="Content"
-                        name="content"
+                        name="description"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your description!',
+                          },
+                        ]}
                         className="mr-0"
                       >
                         <TextArea rows={4} />
