@@ -5,7 +5,7 @@ import Link from "next/link";
 // Components
 import MainBanner from "../components/MainBanner";
 
-export default function Home() {
+const Home = (props) => {
   return (
     <div className="home-page">
       {/* Main Banner */}
@@ -353,4 +353,6 @@ export default function Home() {
       {/* Post Section End */}
     </div>
   )
-}
+};
+
+export default Home;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Form, Input } from 'antd';
 
-export default function ForgotPassword() {
+const ForgotPassword = () => {
   return (
     <div className="oauth-page login-page">
       <div className="oauth-page-wrap">
@@ -31,18 +31,6 @@ export default function ForgotPassword() {
       </div>
     </div>
   )
-}
+};
 
-export async function getServerSideProps(context) {
-  let res = await fetch("http://localhost:3000/api/posts", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  let allPosts = await res.json();
-
-  return {
-    props: { allPosts },
-  };
-}
+export default ForgotPassword;

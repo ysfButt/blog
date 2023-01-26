@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { Layout } from 'antd';
 import Head from 'next/head';
+import { useRouter } from "next/router";
 
 // Components
 import MainHeader from '../MainHeader';
 import MainFooter from "../MainFooter";
-import { useRouter } from "next/router";
 
 const { Content } = Layout;
 
-export default function MainLayout({ children }) {
-
-  const [showDrawer, setShowDrawer] = useState(false);
+const MainLayout = ({ children }) => {
 
   const router = useRouter();
+  
+  const [showDrawer, setShowDrawer] = useState(false);
 
   const path = (router?.pathname === "/login" || router?.pathname === "/forgotPassword" || router?.pathname === "/resetPassword");
 
@@ -64,4 +64,6 @@ export default function MainLayout({ children }) {
 
     </Layout>
   )
-}
+};
+
+export default MainLayout;

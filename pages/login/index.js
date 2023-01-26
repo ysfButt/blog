@@ -1,18 +1,21 @@
 import React, { useEffect } from "react";
 import { Button, Checkbox, Form, Input } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
+import { useRouter } from "next/router";
 
-export default function Login() {
+const Login = ({ notify }) => {
+
+  const router = useRouter();
   
   useEffect(() => {
     let userLogin = localStorage.getItem('user');
     let getItem = JSON.parse(userLogin);
     let redrict = getItem?.success;
-    if (redrict === true) window.location.pathname = '/posts'
+    if (redrict === true) router?.pathname = '/posts'
   }, []);
 
   const login = async (data) => {
-    let results = await fetch(`/api/user`, {
+    const results = await fetch(`/api/user`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
@@ -20,26 +23,19 @@ export default function Login() {
       body: JSON.stringify(data)
     });
 
-    results = await results.json();
-
-    return results;
+    return await results.json();
   }
 
   const onFinish = async (values) => {
-    const user = await login(values);
-    // const user = await getServerSideProps(values);
-    console.log('Success:', values, user);
-    localStorage.setItem('user', JSON.stringify(user));
+    const { success, message, user } = await login(values);
 
-    let userLogin = localStorage.getItem('user');
-    let getItem = await JSON.parse(userLogin);
-    let redrict = getItem?.success;
-    if (redrict === false) {
-      window.location.pathname = '/login'
-      return
+    if (success) {
+      localStorage.setItem('user', JSON.stringify(user));
+      router?.pathname = '/posts';
     } else {
-      window.location.pathname = '/posts'
+      notify("Successfull", message, 'success');
     }
+
   };
 
   return (
@@ -78,40 +74,9 @@ export default function Login() {
             <Button type="primary" size="large" htmlType="submit" block>Login</Button>
           </Form.Item>
         </Form>
-        {/* <p className="account-text">Don’t have a Rebrandly account yet? <a href="/">Get started</a></p>
-        <a href="/">Login with SSO</a> */}
       </div>
     </div>
   )
 };
 
-// export async function getServerSideProps(data) {
-//   let results = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/login`, {
-//     method: "POST",
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     // body: JSON.stringify(data)
-//   });
-
-//   results = await results.json();
-
-//   // console.log({ results });
-//   return results;
-// }
-
-// export async function getServerSideProps(data) {
-//   let results = await fetch("http://localhost:3000/api/posts", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(data)
-//   });
-
-//   results = await results.json();
-
-//   console.log(results, data);
-
-//   return results;
-// }
+export default Login;

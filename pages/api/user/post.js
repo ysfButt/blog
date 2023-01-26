@@ -1,21 +1,17 @@
 // Models
-import User from '../../../models/users';
+import User from '../../../models/user';
 
 export default async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const users = await User.findOne({ email, password }).exec();
+    const user = await User.findOne({ email, password }).select('_id email').exec();
 
-    if (users) {
-      res.send({ success: true, message: "Logged in successfully!", users });
-    } else {
-      throw new Error("Invalid login credentials!");
-    }
-
-    return;
+    if (!user) throw new Error("Invalid login credentials!");
+    
+    res.send({ success: true, message: "Logged in successfully!", user });
 
   } catch (error) {
-    res.status(400).json({ success: false })
+    res.status(400).json({ success: false, message: error?.message })
   }
 }

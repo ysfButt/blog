@@ -11,7 +11,6 @@ export default async (req, res) => {
   await dbConnect();
 
   switch (method) {
-    case 'GET': return Get(req, res);
     case 'POST': return Post(req, res);
     default: res.status(400).json({ success: false });
   }

@@ -453,13 +453,13 @@ h6 {
   /** Theme Text Color **/
 
   /** Theme Text Weight **/
-  .t-w-5 {
+  .f-w-5 {
     font-weight: 500;
   }
-  .t-w-6 {
+  .f-w-6 {
     font-weight: 600;
   }
-  .t-w-7 {
+  .f-w-7 {
     font-weight: 700;
   }
   /** Theme Text Weight End **/
@@ -886,6 +886,80 @@ h6 {
   }
 }
 /** Draft Editor End **/
+
+/** Custom Modal **/
+.ant-modal {
+  top: 20px !important;
+  padding-bottom: 0 !important;
+  .ant-modal-close {
+    top: -18px !important;
+    right: -10px;
+    border-radius: 50% !important;
+    background: @primary-color !important;
+    color: @white !important;
+    .ant-modal-close-x {
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+    }
+    .anticon {
+      color: @white !important;
+    }
+  }
+  .ant-modal-body {
+    max-height: calc(100% + 0px);
+    min-height: calc(100% + 0px);
+    overflow-y: scroll !important;
+    -ms-overflow-style: none;  // IE 10+
+    scrollbar-width: none;  // Firefox
+    &::-webkit-scrollbar { 
+      display: none;  // Safari and Chrome
+    }
+    &>:first-child {
+      max-height: calc(100% + 0px);
+    }
+  }
+  &.ant-modal-confirm-confirm {
+    .ant-modal-body {
+      padding: @padding-lg + 26 @padding-lg + 8;
+    }
+    .ant-modal-confirm-body {
+      text-align: center;
+      .icon {
+        float: none;
+        display: block;
+        margin: 0 0 @margin-lg;
+        font-size: @font-size-lg + 49;
+        &.warning {
+          color: @warning-color !important;
+        }
+        &.success {
+          color: @success-color !important;
+        }
+        &.danger {
+          color: @error-color !important;
+        }
+      }
+      .notify-modal-content {
+        h3 {
+          font-size: @font-size-lg + 8;
+          color: @primary-color;
+          margin-bottom: @margin-xs + 2;
+        }
+        p {
+          font-size: @font-size-lg;
+          margin: 0;
+        }
+      }
+    }
+    .ant-modal-confirm-btns {
+      float: none;
+      text-align: center;
+      margin-top: @margin-lg + 6;
+    }
+  }
+}
+/** Custom Modal **/
 
 /************************************
 *************************************

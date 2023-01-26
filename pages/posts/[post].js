@@ -3,7 +3,7 @@ import { Row, Col, Avatar } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function Post() {
+const Post = () => {
 
   const router = useRouter();
   const { post } = router.query;
@@ -157,4 +157,6 @@ export default function Post() {
       {/* Post Section End */}
     </div>
   )
-}
+};
+
+export default Post;

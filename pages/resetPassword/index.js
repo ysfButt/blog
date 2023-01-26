@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Form, Input } from 'antd';
 
-export default function ResetPassword() {
+const ResetPassword = () => {
   return (
     <div className="oauth-page login-page">
       <div className="oauth-page-wrap">
@@ -38,4 +38,6 @@ export default function ResetPassword() {
       </div>
     </div>
   )
-}
+};
+
+export default ResetPassword;

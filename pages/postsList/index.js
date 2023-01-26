@@ -5,14 +5,14 @@ import { EditFilled, StarFilled, DeleteFilled } from '@ant-design/icons';
 // Components
 import MainBanner from "../../components/MainBanner";
 
-export default function PostsList() {
+const PostsList = () => {
 
   const columns = [
     {
       title: 'Title',
       dataIndex: 'title',
       key: 'title',
-      render: (text) => <Button type="link" className="pd-0 t-w-5">{text}</Button>,
+      render: (text) => <Button type="link" className="pd-0 f-w-5">{text}</Button>,
     },
     {
       title: 'Content',
@@ -91,4 +91,6 @@ export default function PostsList() {
       {/* Posts List Content End */}
     </div>
   )
-}
+};
+
+export default PostsList;

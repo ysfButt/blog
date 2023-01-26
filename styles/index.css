@@ -1414,25 +1414,25 @@ h6 {
 .ant-tooltip .text-purple {
   color: #A752E4 !important;
 }
-.layout .t-w-5,
-.ant-popover .t-w-5,
-.ant-modal .t-w-5,
-.ant-drawer .t-w-5,
-.ant-tooltip .t-w-5 {
+.layout .f-w-5,
+.ant-popover .f-w-5,
+.ant-modal .f-w-5,
+.ant-drawer .f-w-5,
+.ant-tooltip .f-w-5 {
   font-weight: 500;
 }
-.layout .t-w-6,
-.ant-popover .t-w-6,
-.ant-modal .t-w-6,
-.ant-drawer .t-w-6,
-.ant-tooltip .t-w-6 {
+.layout .f-w-6,
+.ant-popover .f-w-6,
+.ant-modal .f-w-6,
+.ant-drawer .f-w-6,
+.ant-tooltip .f-w-6 {
   font-weight: 600;
 }
-.layout .t-w-7,
-.ant-popover .t-w-7,
-.ant-modal .t-w-7,
-.ant-drawer .t-w-7,
-.ant-tooltip .t-w-7 {
+.layout .f-w-7,
+.ant-popover .f-w-7,
+.ant-modal .f-w-7,
+.ant-drawer .f-w-7,
+.ant-tooltip .f-w-7 {
   font-weight: 700;
 }
 .layout .bg-black,
@@ -2160,6 +2160,75 @@ h6 {
   display: none;
 }
 /** Draft Editor End **/
+/** Custom Modal **/
+.ant-modal {
+  top: 20px !important;
+  padding-bottom: 0 !important;
+}
+.ant-modal .ant-modal-close {
+  top: -18px !important;
+  right: -10px;
+  border-radius: 50% !important;
+  background: #007eff !important;
+  color: #fff !important;
+}
+.ant-modal .ant-modal-close .ant-modal-close-x {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+}
+.ant-modal .ant-modal-close .anticon {
+  color: #fff !important;
+}
+.ant-modal .ant-modal-body {
+  max-height: calc(100% + 0px);
+  min-height: calc(100% + 0px);
+  overflow-y: scroll !important;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.ant-modal .ant-modal-body::-webkit-scrollbar {
+  display: none;
+}
+.ant-modal .ant-modal-body > :first-child {
+  max-height: calc(100% + 0px);
+}
+.ant-modal.ant-modal-confirm-confirm .ant-modal-body {
+  padding: 50px 32px;
+}
+.ant-modal.ant-modal-confirm-confirm .ant-modal-confirm-body {
+  text-align: center;
+}
+.ant-modal.ant-modal-confirm-confirm .ant-modal-confirm-body .icon {
+  float: none;
+  display: block;
+  margin: 0 0 24px;
+  font-size: 65px;
+}
+.ant-modal.ant-modal-confirm-confirm .ant-modal-confirm-body .icon.warning {
+  color: #FFD75F !important;
+}
+.ant-modal.ant-modal-confirm-confirm .ant-modal-confirm-body .icon.success {
+  color: #00ECC2 !important;
+}
+.ant-modal.ant-modal-confirm-confirm .ant-modal-confirm-body .icon.danger {
+  color: #FF4359 !important;
+}
+.ant-modal.ant-modal-confirm-confirm .ant-modal-confirm-body .notify-modal-content h3 {
+  font-size: 24px;
+  color: #007eff;
+  margin-bottom: 10px;
+}
+.ant-modal.ant-modal-confirm-confirm .ant-modal-confirm-body .notify-modal-content p {
+  font-size: 16px;
+  margin: 0;
+}
+.ant-modal.ant-modal-confirm-confirm .ant-modal-confirm-btns {
+  float: none;
+  text-align: center;
+  margin-top: 30px;
+}
+/** Custom Modal **/
 /************************************
 *************************************
   Global Style 
