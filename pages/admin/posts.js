@@ -1,358 +1,96 @@
 import React from "react";
-import { Row, Col, Avatar, Divider } from "antd";
-import Link from "next/link";
+import { Button, Space, Table } from 'antd';
+import { EditFilled, StarFilled, DeleteFilled } from '@ant-design/icons';
 
 // Components
 import MainBanner from "../../components/MainBanner";
 
-const Posts = () => {
+const PostsList = () => {
+
+  const columns = [
+    {
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
+      render: (text) => <Button type="link" className="pd-0 f-w-5">{text}</Button>,
+    },
+    {
+      title: 'Content',
+      dataIndex: 'content',
+      key: 'content',
+    },
+    {
+      title: 'Created At',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+    },
+    {
+      title: 'Updated At',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+    },
+    {
+      title: 'Created By',
+      dataIndex: 'createdBy',
+      key: 'createdBy',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Space size="middle">
+          <Button type="primary" ghost icon={<EditFilled />} />
+          <Button type="warning" ghost icon={<StarFilled />} />
+          <Button type="success" ghost icon={<StarFilled />} />
+          <Button type="danger" ghost icon={<DeleteFilled />} /> 
+        </Space>
+      ),
+    },
+  ];
+
+  const data = [
+    {
+      key: '1',
+      title: 'John Brown',
+      content: 32,
+      createdAt: 'New York No. 1 Lake Park',
+      updatedAt: "12/12/2022",
+      createdBy: 'arslan',
+    },
+    {
+      key: '2',
+      title: 'Jim Green',
+      content: 42,
+      createdAt: 'London No. 1 Lake Park',
+      updatedAt: "12/12/2022",
+      createdBy: 'arslan',
+    },
+    {
+      key: '3',
+      title: 'Joe Black',
+      content: 32,
+      createdAt: 'Sidney No. 1 Lake Park',
+      updatedAt: "12/12/2022",
+      createdBy: 'arslan',
+    },
+  ];
+
   return (
-    <div className="posts-page">
+    <div className="posts-list-page">
       {/* Main Banner */}
-      <MainBanner />
+      <MainBanner title='Posts List' />
       {/* Main Banner End */}
-      {/* Post Section */}
-      <section className="post-section">
+      {/* Posts List Content */}
+      <section className="posts-list-content">
         <div className="container">
-          {/* Post Width Gird Content */}
-          <Link href="/" className="post-link">
-            <Row gutter={[40, 40]} className="post-width-gird-content" align="middle">
-              <Col xs={24} lg={14}>
-                <figure className="post-img">
-                  <img src="/images/post-img.jpg" alt="" />
-                </figure>
-              </Col>
-              <Col xs={24} lg={10}>
-                <div className="post-card">
-                  <div className="post-card-head">
-                    <span className="category">Cold Email</span>
-                    <h2 className="title">12 Recruiter Email Templates to Win Over Candidates</h2>
-                  </div>
-                  <div className="post-card-body">
-                    <p>A candidate’s experience reflects on a company’s brand. That’s why the best companies promote quality and consistent communication as part of the application process to win candidates over.</p>
-                  </div>
-                  <div className="post-card-footer">
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    <div className="caption">
-                      <strong className="title">
-                        <Link href="/">Raul Kaevand</Link>
-                      </strong>
-                      <span className="date">26 Nov 2022</span>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          </Link>
-          {/* Post Width Gird Content End */}
-          <Divider />
-          {/* Post Width Gird Content */}
-          <Row gutter={[40, 40]} className="post-width-gird-content post-width-card-content" align="middle">
-            <Col xs={24} lg={8}>
-              <Link href="/" className="post-link">
-                <div className="post-card">
-                  <figure className="post-img">
-                    <img src="/images/post-img.jpg" alt="" />
-                  </figure>
-                  <div className="post-card-head">
-                    <span className="category">Cold Email</span>
-                    <h2 className="title">12 Recruiter Email Templates to Win Over Candidates</h2>
-                  </div>
-                  <div className="post-card-body">
-                    <p>A candidate’s experience reflects on a company’s brand. That’s why the best companies promote quality and consistent communication as part of the application process to win candidates over.</p>
-                  </div>
-                  <div className="post-card-footer">
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    <div className="caption">
-                      <strong className="title">
-                        <Link href="/">Raul Kaevand</Link>
-                      </strong>
-                      <span className="date">26 Nov 2022</span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
-            <Col xs={24} lg={8}>
-              <Link href="/" className="post-link">
-                <div className="post-card">
-                  <figure className="post-img">
-                    <img src="/images/post-img.jpg" alt="" />
-                  </figure>
-                  <div className="post-card-head">
-                    <span className="category">Cold Email</span>
-                    <h2 className="title">12 Recruiter Email Templates to Win Over Candidates</h2>
-                  </div>
-                  <div className="post-card-body">
-                    <p>A candidate’s experience reflects on a company’s brand. That’s why the best companies promote quality and consistent communication as part of the application process to win candidates over.</p>
-                  </div>
-                  <div className="post-card-footer">
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    <div className="caption">
-                      <strong className="title">
-                        <Link href="/">Raul Kaevand</Link>
-                      </strong>
-                      <span className="date">26 Nov 2022</span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
-            <Col xs={24} lg={8}>
-              <Link href="/" className="post-link">
-                <div className="post-card">
-                  <figure className="post-img">
-                    <img src="/images/post-img.jpg" alt="" />
-                  </figure>
-                  <div className="post-card-head">
-                    <span className="category">Cold Email</span>
-                    <h2 className="title">12 Recruiter Email Templates to Win Over Candidates</h2>
-                  </div>
-                  <div className="post-card-body">
-                    <p>A candidate’s experience reflects on a company’s brand. That’s why the best companies promote quality and consistent communication as part of the application process to win candidates over.</p>
-                  </div>
-                  <div className="post-card-footer">
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    <div className="caption">
-                      <strong className="title">
-                        <Link href="/">Raul Kaevand</Link>
-                      </strong>
-                      <span className="date">26 Nov 2022</span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
-          </Row>
-          {/* Post Width Gird Content End */}
-          <Divider />
-          {/* Post Width Gird Content */}
-          <Row gutter={[40, 40]} className="post-width-gird-content post-width-card-content" align="middle">
-            <Col xs={24} lg={12}>
-              <Link href="/" className="post-link">
-                <div className="post-card">
-                  <figure className="post-img">
-                    <img src="/images/post-img.jpg" alt="" />
-                  </figure>
-                  <div className="post-card-head">
-                    <span className="category">Cold Email</span>
-                    <h2 className="title">12 Recruiter Email Templates to Win Over Candidates</h2>
-                  </div>
-                  <div className="post-card-body">
-                    <p>A candidate’s experience reflects on a company’s brand. That’s why the best companies promote quality and consistent communication as part of the application process to win candidates over.</p>
-                  </div>
-                  <div className="post-card-footer">
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    <div className="caption">
-                      <strong className="title">
-                        <Link href="/">Raul Kaevand</Link>
-                      </strong>
-                      <span className="date">26 Nov 2022</span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
-            <Col xs={24} lg={12}>
-              <Link href="/" className="post-link">
-                <div className="post-card">
-                  <figure className="post-img">
-                    <img src="/images/post-img.jpg" alt="" />
-                  </figure>
-                  <div className="post-card-head">
-                    <span className="category">Cold Email</span>
-                    <h2 className="title">12 Recruiter Email Templates to Win Over Candidates</h2>
-                  </div>
-                  <div className="post-card-body">
-                    <p>A candidate’s experience reflects on a company’s brand. That’s why the best companies promote quality and consistent communication as part of the application process to win candidates over.</p>
-                  </div>
-                  <div className="post-card-footer">
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    <div className="caption">
-                      <strong className="title">
-                        <Link href="/">Raul Kaevand</Link>
-                      </strong>
-                      <span className="date">26 Nov 2022</span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
-          </Row>
-          {/* Post Width Gird Content End */}
-          <Divider />
-          {/* Post Width Gird Content */}
-          <Link href="/" className="post-link">
-            <Row gutter={[40, 40]} className="post-width-gird-content" align="middle">
-              <Col xs={24} lg={14}>
-                <figure className="post-img">
-                  <img src="/images/post-img.jpg" alt="" />
-                </figure>
-              </Col>
-              <Col xs={24} lg={10}>
-                <div className="post-card">
-                  <div className="post-card-head">
-                    <span className="category">Cold Email</span>
-                    <h2 className="title">12 Recruiter Email Templates to Win Over Candidates</h2>
-                  </div>
-                  <div className="post-card-body">
-                    <p>A candidate’s experience reflects on a company’s brand. That’s why the best companies promote quality and consistent communication as part of the application process to win candidates over.</p>
-                  </div>
-                  <div className="post-card-footer">
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    <div className="caption">
-                      <strong className="title">
-                        <Link href="/">Raul Kaevand</Link>
-                      </strong>
-                      <span className="date">26 Nov 2022</span>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          </Link>
-          {/* Post Width Gird Content End */}
-          <Divider />
-          {/* Post Width Gird Content */}
-          <Row gutter={[40, 40]} className="post-width-gird-content post-width-card-content" align="middle">
-            <Col xs={24} lg={8}>
-              <Link href="/" className="post-link">
-                <div className="post-card">
-                  <figure className="post-img">
-                    <img src="/images/post-img.jpg" alt="" />
-                  </figure>
-                  <div className="post-card-head">
-                    <span className="category">Cold Email</span>
-                    <h2 className="title">12 Recruiter Email Templates to Win Over Candidates</h2>
-                  </div>
-                  <div className="post-card-body">
-                    <p>A candidate’s experience reflects on a company’s brand. That’s why the best companies promote quality and consistent communication as part of the application process to win candidates over.</p>
-                  </div>
-                  <div className="post-card-footer">
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    <div className="caption">
-                      <strong className="title">
-                        <Link href="/">Raul Kaevand</Link>
-                      </strong>
-                      <span className="date">26 Nov 2022</span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
-            <Col xs={24} lg={8}>
-              <Link href="/" className="post-link">
-                <div className="post-card">
-                  <figure className="post-img">
-                    <img src="/images/post-img.jpg" alt="" />
-                  </figure>
-                  <div className="post-card-head">
-                    <span className="category">Cold Email</span>
-                    <h2 className="title">12 Recruiter Email Templates to Win Over Candidates</h2>
-                  </div>
-                  <div className="post-card-body">
-                    <p>A candidate’s experience reflects on a company’s brand. That’s why the best companies promote quality and consistent communication as part of the application process to win candidates over.</p>
-                  </div>
-                  <div className="post-card-footer">
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    <div className="caption">
-                      <strong className="title">
-                        <Link href="/">Raul Kaevand</Link>
-                      </strong>
-                      <span className="date">26 Nov 2022</span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
-            <Col xs={24} lg={8}>
-              <Link href="/" className="post-link">
-                <div className="post-card">
-                  <figure className="post-img">
-                    <img src="/images/post-img.jpg" alt="" />
-                  </figure>
-                  <div className="post-card-head">
-                    <span className="category">Cold Email</span>
-                    <h2 className="title">12 Recruiter Email Templates to Win Over Candidates</h2>
-                  </div>
-                  <div className="post-card-body">
-                    <p>A candidate’s experience reflects on a company’s brand. That’s why the best companies promote quality and consistent communication as part of the application process to win candidates over.</p>
-                  </div>
-                  <div className="post-card-footer">
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    <div className="caption">
-                      <strong className="title">
-                        <Link href="/">Raul Kaevand</Link>
-                      </strong>
-                      <span className="date">26 Nov 2022</span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
-          </Row>
-          {/* Post Width Gird Content End */}
-          <Divider />
-          {/* Post Width Gird Content */}
-          <Row gutter={[40, 40]} className="post-width-gird-content post-width-card-content" align="middle">
-            <Col xs={24} lg={12}>
-              <Link href="/" className="post-link">
-                <div className="post-card">
-                  <figure className="post-img">
-                    <img src="/images/post-img.jpg" alt="" />
-                  </figure>
-                  <div className="post-card-head">
-                    <span className="category">Cold Email</span>
-                    <h2 className="title">12 Recruiter Email Templates to Win Over Candidates</h2>
-                  </div>
-                  <div className="post-card-body">
-                    <p>A candidate’s experience reflects on a company’s brand. That’s why the best companies promote quality and consistent communication as part of the application process to win candidates over.</p>
-                  </div>
-                  <div className="post-card-footer">
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    <div className="caption">
-                      <strong className="title">
-                        <Link href="/">Raul Kaevand</Link>
-                      </strong>
-                      <span className="date">26 Nov 2022</span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
-            <Col xs={24} lg={12}>
-              <Link href="/" className="post-link">
-                <div className="post-card">
-                  <figure className="post-img">
-                    <img src="/images/post-img.jpg" alt="" />
-                  </figure>
-                  <div className="post-card-head">
-                    <span className="category">Cold Email</span>
-                    <h2 className="title">12 Recruiter Email Templates to Win Over Candidates</h2>
-                  </div>
-                  <div className="post-card-body">
-                    <p>A candidate’s experience reflects on a company’s brand. That’s why the best companies promote quality and consistent communication as part of the application process to win candidates over.</p>
-                  </div>
-                  <div className="post-card-footer">
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    <div className="caption">
-                      <strong className="title">
-                        <Link href="/">Raul Kaevand</Link>
-                      </strong>
-                      <span className="date">26 Nov 2022</span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Col>
-          </Row>
-          {/* Post Width Gird Content End */}
-          <Divider />
+          <div className="table-h">
+            <Table columns={columns} dataSource={data} className="table" />
+          </div>
         </div>
       </section>
-      {/* Post Section End */}
+      {/* Posts List Content End */}
     </div>
   )
 };
 
-export default Posts;
+export default PostsList;
