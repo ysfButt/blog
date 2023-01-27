@@ -8,10 +8,7 @@ const Login = ({ notify }) => {
   const router = useRouter();
   
   useEffect(() => {
-    let userLogin = localStorage.getItem('user');
-    let getItem = JSON.parse(userLogin);
-    let redrict = getItem?.success;
-    if (redrict === true) router?.pathname = '/posts'
+    if (localStorage.getItem('user')) router.push('/admin/posts');
   }, []);
 
   const login = async (data) => {
@@ -31,7 +28,7 @@ const Login = ({ notify }) => {
 
     if (success) {
       localStorage.setItem('user', JSON.stringify(user));
-      router?.pathname = '/posts';
+      router.push('/admin/posts');
     } else {
       notify("Successfull", message, 'success');
     }

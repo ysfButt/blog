@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Row, Col, Button, Checkbox, Form, Input, DatePicker, message, Upload } from "antd";
 import { InboxOutlined } from '@ant-design/icons';
 // import { Editor, EditorState } from 'draft-js';
@@ -6,7 +6,7 @@ import { InboxOutlined } from '@ant-design/icons';
 import moment from "moment";
 
 // Components
-import MainBanner from "../../components/MainBanner";
+import MainBanner from "../../../components/MainBanner";
 
 // Styles
 // import 'draft-js/dist/Draft.css';

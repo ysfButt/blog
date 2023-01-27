@@ -1,11 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Space, Table } from 'antd';
 import { EditFilled, StarFilled, DeleteFilled } from '@ant-design/icons';
 
 // Components
-import MainBanner from "../../components/MainBanner";
+import MainBanner from "../../../components/MainBanner";
 
-const PostsList = () => {
+export default function PostsList({ posts }) {
+
+  // Posts Data
+  const lists = posts.data;
+
+  // States
+  const [list, setList] = useState(lists);
+
+  // useEffect(() => {
+  //   postList();
+  // });
+
+  // const postList = async () => {
+  //   let results = await fetch(`/api/post`, {
+  //     method: "GET",
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       // 'token': user?._id?.toString()
+  //     },
+  //     // body: JSON.stringify(data)
+  //   });
+
+  //   console.log(await results);
+
+  //   return await results;
+  // }
 
   const columns = [
     {
@@ -75,6 +100,9 @@ const PostsList = () => {
     },
   ];
 
+  console.log(list);
+  console.log("list", list[14]._id);
+
   return (
     <div className="posts-list-page">
       {/* Main Banner */}
@@ -93,4 +121,14 @@ const PostsList = () => {
   )
 };
 
-export default PostsList;
+// export default PostsList;
+
+
+export async function getStaticProps() {
+  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/post`);
+  const posts = await res.json();
+
+  return {
+    props: { posts } // props will be passed to the page
+  };
+}
