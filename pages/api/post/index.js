@@ -10,6 +10,8 @@ export default async (req, res) => {
   
   await dbConnect();
 
+  console.log(method);
+
   switch (method) {
     case 'GET':
       try {
@@ -21,6 +23,19 @@ export default async (req, res) => {
         res.status(400).json({ success: false })
       }
       break 
+    case "PUT": 
+      try {
+        if(req.body._id) {
+          const post = await Post.findOneAndUpdate({ _id }).exec();
+          // console.log(post);
+        } else {
+          throw new Error("Invalid ID!");
+        }
+        
+      } catch (error) {
+        res.status(400).json({ success: false, message: error?.message })
+      }
+      break
     case 'POST':
       try {
         const post = await Post.create(req.body);

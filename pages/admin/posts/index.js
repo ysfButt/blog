@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, Space, Table } from 'antd';
 import { EditFilled, StarFilled, DeleteFilled } from '@ant-design/icons';
+import moment from 'moment';
+import { useRouter } from "next/router";
+import qs from 'qs';
 
 // Components
 import MainBanner from "../../../components/MainBanner";
@@ -12,25 +15,14 @@ export default function PostsList({ posts }) {
 
   // States
   const [list, setList] = useState(lists);
+  const [edit, setEdit] = useState(false);
 
-  // useEffect(() => {
-  //   postList();
-  // });
+  // Router
+  const router = useRouter();
 
-  // const postList = async () => {
-  //   let results = await fetch(`/api/post`, {
-  //     method: "GET",
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       // 'token': user?._id?.toString()
-  //     },
-  //     // body: JSON.stringify(data)
-  //   });
-
-  //   console.log(await results);
-
-  //   return await results;
-  // }
+  useEffect(() => {
+    // The post changed!
+  }, [router.query.post]);
 
   const columns = [
     {
@@ -41,13 +33,14 @@ export default function PostsList({ posts }) {
     },
     {
       title: 'Content',
-      dataIndex: 'content',
-      key: 'content',
+      dataIndex: 'description',
+      key: 'description',
     },
     {
       title: 'Created At',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
+      dataIndex: 'publishedAt',
+      key: 'publishedAt',
+      render: (text) => moment(text).format('LLL'),
     },
     {
       title: 'Updated At',
@@ -64,7 +57,7 @@ export default function PostsList({ posts }) {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <Button type="primary" ghost icon={<EditFilled />} />
+          <Button type="primary" ghost icon={<EditFilled />} onClick={() => editPost(record)} />
           <Button type="warning" ghost icon={<StarFilled />} />
           <Button type="success" ghost icon={<StarFilled />} />
           <Button type="danger" ghost icon={<DeleteFilled />} /> 
@@ -73,35 +66,18 @@ export default function PostsList({ posts }) {
     },
   ];
 
-  const data = [
-    {
-      key: '1',
-      title: 'John Brown',
-      content: 32,
-      createdAt: 'New York No. 1 Lake Park',
-      updatedAt: "12/12/2022",
-      createdBy: 'arslan',
-    },
-    {
-      key: '2',
-      title: 'Jim Green',
-      content: 42,
-      createdAt: 'London No. 1 Lake Park',
-      updatedAt: "12/12/2022",
-      createdBy: 'arslan',
-    },
-    {
-      key: '3',
-      title: 'Joe Black',
-      content: 32,
-      createdAt: 'Sidney No. 1 Lake Park',
-      updatedAt: "12/12/2022",
-      createdBy: 'arslan',
-    },
-  ];
+  const editPost = async (record) => {  
+    setEdit(true);
+    console.log("record", record);
 
-  console.log(list);
-  console.log("list", list[14]._id);
+    if (edit) {
+      router.push({
+        pathname: `/admin/posts/new`,
+        query: { id: record._id },
+        shallow: true,
+      });
+    }
+  };
 
   return (
     <div className="posts-list-page">
@@ -112,7 +88,7 @@ export default function PostsList({ posts }) {
       <section className="posts-list-content">
         <div className="container">
           <div className="table-h">
-            <Table columns={columns} dataSource={data} className="table" />
+            <Table columns={columns} dataSource={list} className="table" />
           </div>
         </div>
       </section>

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Button, Checkbox, Form, Input, DatePicker, message, Upload } from "antd";
 import { InboxOutlined } from '@ant-design/icons';
 // import { Editor, EditorState } from 'draft-js';
 // import { Editor } from "react-draft-wysiwyg";
 import moment from "moment";
+import { useRouter } from "next/router";
 
 // Components
 import MainBanner from "../../../components/MainBanner";
@@ -15,7 +16,14 @@ import MainBanner from "../../../components/MainBanner";
 const { TextArea } = Input;
 const { Dragger } = Upload;
 
-export default function NewPost() {
+export default function NewPost({ posts }) {
+
+  const router = useRouter();
+
+  console.log(router);
+  console.log(router.query);
+
+  if (router.query.id) console.log(posts);
 
   const createPost = async (data) => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -25,6 +33,18 @@ export default function NewPost() {
       headers: {
         'Content-Type': 'application/json',
         'token': user?._id?.toString()
+      },
+      body: JSON.stringify(data)
+    });
+
+    return await results.json();
+  }
+
+  const updatePost = async (data) => {
+    let results = await fetch(`/api/post`, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(data)
     });
@@ -57,11 +77,20 @@ export default function NewPost() {
   };
 
   const onFinish = async (values) => {
-    values['publishedAt'] = moment(values.publishedAt).valueOf();
-    
-    const posts = await createPost(values);
 
-    console.log('Success:', values, posts);
+    if (router.query.id) {
+      values['publishedAt'] = moment(values.publishedAt).valueOf();
+      
+      const posts = await updatePost(values);
+  
+      console.log('Success:', values, posts);
+    } else {
+      values['publishedAt'] = moment(values.publishedAt).valueOf();
+      
+      const posts = await createPost(values);
+  
+      console.log('Success:', values, posts);
+    }
   };
 
   return (
@@ -327,4 +356,13 @@ export default function NewPost() {
       {/* New Post Content End */}
     </div>
   )
+};
+
+export async function getStaticProps() {
+  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/post`);
+  const posts = await res.json();
+
+  return {
+    props: { posts } // props will be passed to the page
+  };
 }
