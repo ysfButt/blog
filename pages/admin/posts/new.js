@@ -16,35 +16,25 @@ import MainBanner from "../../../components/MainBanner";
 const { TextArea } = Input;
 const { Dragger } = Upload;
 
-export default function NewPost({ posts }) {
+export default function NewPost({ notify, posts }) {
 
   const router = useRouter();
+  const postsData = posts?.data;
+  const id = router?.query?.id;
+  let itemData;
 
-  console.log(router);
-  console.log(router.query);
-
-  if (router.query.id) console.log(posts);
+  // Form
+  const [form] = Form.useForm();
 
   const createPost = async (data) => {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log("user", user);
+    if(id) data[`postId`] = id;
     let results = await fetch(`/api/post`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
         'token': user?._id?.toString()
-      },
-      body: JSON.stringify(data)
-    });
-
-    return await results.json();
-  }
-
-  const updatePost = async (data) => {
-    let results = await fetch(`/api/post`, {
-      method: "PUT",
-      headers: {
-        'Content-Type': 'application/json',
       },
       body: JSON.stringify(data)
     });
@@ -76,27 +66,70 @@ export default function NewPost({ posts }) {
     },
   };
 
-  const onFinish = async (values) => {
+  
+  if (id) {
+    itemData = postsData?.find(o => o._id === id);
+    itemData['publishedAt'] = moment(itemData.publishedAt);
+    form.setFieldsValue({ 
+      ...itemData, 
+      headings: itemData.headings,
+      meta: {
+        title: itemData.meta.title, 
+        description: itemData.meta.description,
+        focusedKeywords: itemData.meta.focusedKeywords, 
+        cononical: itemData.meta.cononical,
+        noIndex: itemData.meta.noIndex, 
+        noFollow: itemData.meta.noFollow,
+        tags: itemData.meta.tags,
+        markup: itemData.meta.markup,
+      },
+      facebookMeta: {
+        title: itemData.facebookMeta.title,
+        description: itemData.facebookMeta.description,
+      },
+      twitterMeta: {
+        title: itemData.twitterMeta.title,
+        description: itemData.twitterMeta.description,
+      },
+      // metaTitle: itemData.meta.title, 
+      // metaDescription: itemData.meta.description,
+      // metaFocusedKeywords: itemData.meta.focusedKeywords, 
+      // metaCononical: itemData.meta.cononical,
+      // metaNoIndex: itemData.meta.noIndex, 
+      // metaNoFollow: itemData.meta.noFollow,
+      // metaTags: itemData.meta.tags,
+      // metaMarkup: itemData.meta.markup,
+      // facebookMetaTitle: itemData.facebookMeta.title,
+      // facebookMetaDescription: itemData.facebookMeta.description,
+      // twitterMetaTitle: itemData.twitterMeta.title,
+      // twitterMetaDescription: itemData.twitterMeta.description,
+    });
+  };
 
-    if (router.query.id) {
-      values['publishedAt'] = moment(values.publishedAt).valueOf();
-      
-      const posts = await updatePost(values);
-  
-      console.log('Success:', values, posts);
+  const onFinish = async (values) => {
+    values['publishedAt'] = moment(values.publishedAt).valueOf();
+    
+    const { success, message, posts } = await createPost(values);
+    
+    console.log('Success:', values, posts);
+    
+    if (success) {
+      notify("Successfull", message, 'success');
+    } else if (id) {
+      if (success) {
+        notify("Successfull", message, 'success');
+      } else {
+        notify("Error", message, 'error');
+      }
     } else {
-      values['publishedAt'] = moment(values.publishedAt).valueOf();
-      
-      const posts = await createPost(values);
-  
-      console.log('Success:', values, posts);
+      notify("Error", message, 'error');
     }
   };
 
   return (
     <div className="new-post-page">
       {/* Main Banner */}
-      <MainBanner title='Add New Post' />
+      <MainBanner title={id ? 'Edit Post' : 'Add New Post'} />
       {/* Main Banner End */}
       {/* New Post Content */}
       <Form
@@ -105,6 +138,7 @@ export default function NewPost({ posts }) {
         wrapperCol={{span: 16}}
         initialValues={{remember: true}}
         autoComplete="off"
+        form={form}
         onFinish={onFinish}
       >
         <section className="new-post-sec">

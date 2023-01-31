@@ -31,8 +31,8 @@ const PostSchema = new mongoose.Schema({
   },
   excerpt: String,
   featuredImageUrl: String,
-  createdAt: Boolean,
-  updatedAt: Boolean,
+  createdAt: Date,
+  updatedAt: Date,
   publishedAt: Date,
   createdBy: mongoose.ObjectId
 }, { timestamps: true });
