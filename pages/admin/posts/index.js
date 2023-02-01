@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Space, Table } from 'antd';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
 import { EditFilled, StarFilled, DeleteFilled } from '@ant-design/icons';
 import moment from 'moment';
 import { useRouter } from "next/router";
@@ -8,7 +8,7 @@ import qs from 'qs';
 // Components
 import MainBanner from "../../../components/MainBanner";
 
-export default function PostsList({ posts }) {
+const PostsList = ({ notify, posts }) => {
 
   // Posts Data
   const lists = posts.data;
@@ -16,6 +16,8 @@ export default function PostsList({ posts }) {
   // States
   const [list, setList] = useState(lists);
   const [edit, setEdit] = useState(false);
+  const [isPublished, setIsPublished] = useState(false);
+  const [isStarred, setIsStarred] = useState(false);
 
   // Router
   const router = useRouter();
@@ -23,6 +25,30 @@ export default function PostsList({ posts }) {
   useEffect(() => {
     // The post changed!
   }, [router.query.post]);
+
+  const postId = async (data) => {
+    let results = await fetch(`/api/post`, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+
+    return await results.json();
+  }
+
+  const updatePost = async (data) => {
+    let results = await fetch(`/api/post`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+
+    return await results.json();
+  }
 
   const columns = [
     {
@@ -35,6 +61,7 @@ export default function PostsList({ posts }) {
       title: 'Content',
       dataIndex: 'description',
       key: 'description',
+      width: '280px',
     },
     {
       title: 'Created At',
@@ -46,21 +73,39 @@ export default function PostsList({ posts }) {
       title: 'Updated At',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
+      render: (text) => text && moment(text).format('LLL'),
     },
     {
       title: 'Created By',
       dataIndex: 'createdBy',
       key: 'createdBy',
+      width: '150px',
     },
     {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <Button type="primary" ghost icon={<EditFilled />} onClick={() => editPost(record)} />
-          <Button type="warning" ghost icon={<StarFilled />} />
-          <Button type="success" ghost icon={<StarFilled />} />
-          <Button type="danger" ghost icon={<DeleteFilled />} /> 
+          <Tooltip title="Edit Post" placement="topRight">
+            <Button type="primary" ghost icon={<EditFilled />} onClick={() => editPost(record)} />
+          </Tooltip>
+          <Tooltip title="Publish Post" placement="topRight">
+            <Button type="warning" ghost={record?.isPublished ? true : false} icon={<StarFilled />} onClick={() => publishedPost(record)} />
+          </Tooltip>
+          <Tooltip title="Favorite Post" placement="topRight">
+            <Button type="success" ghost={record?.isStarred ? true : false} icon={<StarFilled />} onClick={() => starredPost(record)} />
+          </Tooltip>
+          <Popconfirm
+            placement="rightTop"
+            title="Are you sure you want to delete this post!"
+            onConfirm={() => deletePost(record?._id)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Tooltip title="Delete Post" placement="topRight">
+              <Button type="danger" ghost icon={<DeleteFilled />} /> 
+            </Tooltip>
+          </Popconfirm>
         </Space>
       ),
     },
@@ -68,7 +113,6 @@ export default function PostsList({ posts }) {
 
   const editPost = async (record) => {  
     setEdit(true);
-    console.log("record", record);
 
     if (edit) {
       router.push({
@@ -76,13 +120,46 @@ export default function PostsList({ posts }) {
         query: { id: record._id },
         shallow: true,
       });
+    } 
+    // else {
+    //   notify("Error", "Post ID is not valid!", 'error');
+    // }
+  };
+
+  const deletePost = async (record) => {
+    const { success, message } = await postId(record);
+
+    if (success) {
+      notify("Successfull", message, 'success');
+    } else {
+      notify("Error", message, 'error');
     }
+  };
+
+  const publishedPost = async (record) => {
+    setIsPublished(!isPublished);
+
+    record['isPublished'] = isPublished;
+    const published = await updatePost(record);
+  };
+
+  const starredPost = async (record) => {
+    setIsStarred(!isStarred);
+
+    record['isStarred'] = isStarred;
+    const starred = await updatePost(record);
   };
 
   return (
     <div className="posts-list-page">
       {/* Main Banner */}
-      <MainBanner title='Posts List' />
+      <div className="main-banner new-post-banner">
+        <div className="container">
+          <div className="caption">
+            <h1 className="title">Posts</h1>
+          </div>
+        </div>
+      </div>
       {/* Main Banner End */}
       {/* Posts List Content */}
       <section className="posts-list-content">
@@ -97,8 +174,7 @@ export default function PostsList({ posts }) {
   )
 };
 
-// export default PostsList;
-
+export default PostsList;
 
 export async function getStaticProps() {
   const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/post`);

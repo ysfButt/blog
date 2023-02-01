@@ -961,6 +961,14 @@ h6 {
 }
 /** Custom Modal **/
 
+/** Popconfirm **/
+.ant-popover-message {
+  &> .anticon {
+    top: 7px;
+  }
+}
+/** Popconfirm End **/
+
 /************************************
 *************************************
   Global Style 
@@ -1175,12 +1183,17 @@ h6 {
       height: 55px;
       margin-bottom: @margin-lg + 1;
     }
-    p {
-      font-size: @font-size-lg + 4;
+    .title {
+      font-size: @font-size-lg + 8;
       line-height: @line-height-base + 10;
-      font-weight: 500;
+      font-weight: 500 !important;
       color: @black;
+      margin: 0;
     }
+  }
+  &.new-post-banner {
+    padding: @padding-lg + 76 0 @padding-lg + 56;
+    text-align: center;
   }
 }
 /** Main Banner End **/
@@ -1566,6 +1579,14 @@ h6 {
     border: @border-width-base @border-style-base @border-color-base;
     padding: @padding-lg + 6;
     border-radius: @border-radius-base;
+  }
+  .new-post-aside {
+    .ant-checkbox-wrapper {
+      margin: 0;
+      &:not(:last-child) {
+        margin: 0 0 @margin-xs + 2;
+      }
+    }
   }
   .ant-picker {
     width: 100%;

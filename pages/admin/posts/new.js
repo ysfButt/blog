@@ -16,7 +16,7 @@ import MainBanner from "../../../components/MainBanner";
 const { TextArea } = Input;
 const { Dragger } = Upload;
 
-export default function NewPost({ notify, posts }) {
+const NewPost = ({ notify, posts }) => {
 
   const router = useRouter();
   const postsData = posts?.data;
@@ -26,9 +26,13 @@ export default function NewPost({ notify, posts }) {
   // Form
   const [form] = Form.useForm();
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    document.getElementById('user-name').innerHTML = user?.email ? user?.email : 'Add User';
+  }, []);
+
   const createPost = async (data) => {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log("user", user);
     if(id) data[`postId`] = id;
     let results = await fetch(`/api/post`, {
       method: "POST",
@@ -70,48 +74,14 @@ export default function NewPost({ notify, posts }) {
   if (id) {
     itemData = postsData?.find(o => o._id === id);
     itemData['publishedAt'] = moment(itemData.publishedAt);
-    form.setFieldsValue({ 
-      ...itemData, 
-      headings: itemData.headings,
-      meta: {
-        title: itemData.meta.title, 
-        description: itemData.meta.description,
-        focusedKeywords: itemData.meta.focusedKeywords, 
-        cononical: itemData.meta.cononical,
-        noIndex: itemData.meta.noIndex, 
-        noFollow: itemData.meta.noFollow,
-        tags: itemData.meta.tags,
-        markup: itemData.meta.markup,
-      },
-      facebookMeta: {
-        title: itemData.facebookMeta.title,
-        description: itemData.facebookMeta.description,
-      },
-      twitterMeta: {
-        title: itemData.twitterMeta.title,
-        description: itemData.twitterMeta.description,
-      },
-      // metaTitle: itemData.meta.title, 
-      // metaDescription: itemData.meta.description,
-      // metaFocusedKeywords: itemData.meta.focusedKeywords, 
-      // metaCononical: itemData.meta.cononical,
-      // metaNoIndex: itemData.meta.noIndex, 
-      // metaNoFollow: itemData.meta.noFollow,
-      // metaTags: itemData.meta.tags,
-      // metaMarkup: itemData.meta.markup,
-      // facebookMetaTitle: itemData.facebookMeta.title,
-      // facebookMetaDescription: itemData.facebookMeta.description,
-      // twitterMetaTitle: itemData.twitterMeta.title,
-      // twitterMetaDescription: itemData.twitterMeta.description,
-    });
+    form.setFieldsValue({ ...itemData, headings: ['1', '2'] });
+    console.log("data", itemData);
   };
 
   const onFinish = async (values) => {
     values['publishedAt'] = moment(values.publishedAt).valueOf();
     
-    const { success, message, posts } = await createPost(values);
-    
-    console.log('Success:', values, posts);
+    const { success, message } = await createPost(values);
     
     if (success) {
       notify("Successfull", message, 'success');
@@ -126,6 +96,15 @@ export default function NewPost({ notify, posts }) {
     }
   };
 
+  const options = [
+    { label: 'Heading 1 (h1)', value: '1' },
+    { label: 'Heading 2 (h2)', value: '2' },
+    { label: 'Heading 3 (h3)', value: '3' },
+    { label: 'Heading 4 (h4)', value: '4' },
+    { label: 'Heading 5 (h5)', value: '5' },
+    { label: 'Heading 6 (h6)', value: '6' },
+  ];
+
   return (
     <div className="new-post-page">
       {/* Main Banner */}
@@ -136,7 +115,6 @@ export default function NewPost({ notify, posts }) {
         name="basic"
         labelCol={{span: 8}}
         wrapperCol={{span: 16}}
-        initialValues={{remember: true}}
         autoComplete="off"
         form={form}
         onFinish={onFinish}
@@ -190,42 +168,42 @@ export default function NewPost({ notify, posts }) {
                       <h3 className="title">Meta:</h3>
                       <Form.Item
                         label="Title"
-                        name="meta.title"
+                        name={['meta', 'title']}
                       >
                         <Input />
                       </Form.Item>
 
                       <Form.Item
                         label="Description"
-                        name="meta.description"
+                        name={['meta', 'description']}
                       >
                         <TextArea rows={4} />
                       </Form.Item>
 
                       <Form.Item
                         label="Focused keyword"
-                        name="meta.focusedKeywords"
+                        name={['meta', 'focusedKeywords']}
                       >
                         <Input />
                       </Form.Item>
 
                       <Form.Item
                         label="Canonical"
-                        name="meta.cononical"
+                        name={['meta', 'cononical']}
                       >
                         <Input />
                       </Form.Item>
 
                       <Form.Item
                         label="noindex"
-                        name="meta.noIndex"
+                        name={['meta', 'noIndex']}
                         valuePropName="checked"
                       >
                         <Checkbox></Checkbox>
                       </Form.Item>
                       <Form.Item
                         label="nofollow"
-                        name="meta.noFollow"
+                        name={['meta', 'noFollow']}
                         valuePropName="checked"
                       >
                         <Checkbox></Checkbox>
@@ -233,14 +211,14 @@ export default function NewPost({ notify, posts }) {
 
                       <Form.Item
                         label="ALT Tag"
-                        name="meta.tags"
+                        name={['meta', 'tags']}
                       >
                         <Input />
                       </Form.Item>
 
                       <Form.Item
                         label="Schema Markup"
-                        name="meta.markup"
+                        name={['meta', 'markup']}
                         valuePropName="checked"
                       >
                         <Checkbox></Checkbox>
@@ -252,28 +230,28 @@ export default function NewPost({ notify, posts }) {
                       <h3 className="title">Social Media Meta:</h3>
                       <Form.Item
                         label="Facebook Title"
-                        name="facebookMeta.title"
+                        name={['facebookMeta', 'title']}
                       >
                         <Input />
                       </Form.Item>
     
                       <Form.Item
                         label="Facebook Description"
-                        name="facebookMeta.description"
+                        name={['facebookMeta', 'description']}
                       >
                         <TextArea rows={4} />
                       </Form.Item>
     
                       <Form.Item
                         label="Twitter Title"
-                        name="twitterMeta.title"
+                        name={['twitterMeta', 'title']}
                       >
                         <Input />
                       </Form.Item>
     
                       <Form.Item
                         label="Twitter Description"
-                        name="twitterMeta.description"
+                        name={['twitterMeta', 'description']}
                       >
                         <TextArea rows={4} />
                       </Form.Item>
@@ -308,7 +286,7 @@ export default function NewPost({ notify, posts }) {
                         <DatePicker />
                       </Form.Item>
                       <h3 className="title publish-title">Publish By:</h3>
-                      <strong className="author-name">Arslan</strong>
+                      <strong className="author-name" id="user-name">Arslan</strong>
                     </div>
                   </Col>
                   <Col xs={24}>
@@ -317,12 +295,14 @@ export default function NewPost({ notify, posts }) {
                       <Form.Item
                         name="headings"
                         valuePropName="checked"
+                        // getValueProps={(e) => console.log("checkbox value", e)}
                         wrapperCol={{
                           span: 24,
                         }}
                         className="mr-0"
                       >
-                        <Checkbox.Group className="w-100">
+                        <Checkbox.Group options={options} />
+                        {/* <Checkbox.Group className="w-100">
                           <Row gutter={[15, 15]}>
                             <Col span={24}>
                               <Checkbox value="1">Heading 1 (h1)</Checkbox>
@@ -343,7 +323,7 @@ export default function NewPost({ notify, posts }) {
                               <Checkbox value="6">Heading 6 (h6)</Checkbox>
                             </Col>
                           </Row>
-                        </Checkbox.Group>
+                        </Checkbox.Group> */}
                       </Form.Item>
                     </div>
                   </Col>
@@ -391,6 +371,8 @@ export default function NewPost({ notify, posts }) {
     </div>
   )
 };
+
+export default NewPost;
 
 export async function getStaticProps() {
   const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/post`);

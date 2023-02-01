@@ -12,7 +12,7 @@ const MainBanner = ({ title = 'Tips, best practices, and updates' }) => (
           width={144} // Desired size with correct aspect ratio
           alt="Logo"
         />
-        <p>{title}</p>
+        <h1 className="title">{title}</h1>
       </div>
     </div>
   </div>
