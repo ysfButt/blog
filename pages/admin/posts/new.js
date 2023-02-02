@@ -5,9 +5,10 @@ import { InboxOutlined } from '@ant-design/icons';
 // import { Editor } from "react-draft-wysiwyg";
 import moment from "moment";
 import { useRouter } from "next/router";
+import qs from 'qs';
 
-// Components
-import MainBanner from "../../../components/MainBanner";
+// Helper
+import Post from '../../../helpers/post';
 
 // Styles
 // import 'draft-js/dist/Draft.css';
@@ -16,24 +17,50 @@ import MainBanner from "../../../components/MainBanner";
 const { TextArea } = Input;
 const { Dragger } = Upload;
 
-const NewPost = ({ notify, posts }) => {
+const options = [
+  { label: 'Heading 1 (h1)', value: '1' },
+  { label: 'Heading 2 (h2)', value: '2' },
+  { label: 'Heading 3 (h3)', value: '3' },
+  { label: 'Heading 4 (h4)', value: '4' },
+  { label: 'Heading 5 (h5)', value: '5' },
+  { label: 'Heading 6 (h6)', value: '6' },
+];
+
+const NewPost = ({ notify }) => {
 
   const router = useRouter();
-  const postsData = posts?.data;
   const id = router?.query?.id;
-  let itemData;
 
   // Form
   const [form] = Form.useForm();
-
+  
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
     document.getElementById('user-name').innerHTML = user?.email ? user?.email : 'Add User';
   }, []);
 
-  const createPost = async (data) => {
+  useEffect(() => {
+    const { id } = qs.parse(window.location.search, { ignoreQueryPrefix: true });
+    if (id) {
+      let data = {};
+      data['postId'] = id;
+      data['getPost'] = true;
+      console.log("data new", data);
+      (async () => {
+        const { success, message, post } = await getPost(data);
+        // const { success, message, post } = await Post({ path: 'post', data: data, method: 'POST' });
+        if (success) {
+          post['publishedAt'] = moment(post.publishedAt);
+          form.setFieldsValue(post);
+        } else {
+          notify('Error', message, 'error');
+        }
+      })();
+    }
+  });
+
+  const getPost = async (data) => {
     const user = JSON.parse(localStorage.getItem('user'));
-    if(id) data[`postId`] = id;
     let results = await fetch(`/api/post`, {
       method: "POST",
       headers: {
@@ -44,7 +71,80 @@ const NewPost = ({ notify, posts }) => {
     });
 
     return await results.json();
+  };
+
+  const updatePost = async (data) => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    let results = await fetch(`/api/post/update`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'token': user?._id?.toString()
+      },
+      body: JSON.stringify(data)
+    });
+
+    return await results.json();
+  };
+
+  const createPost = async (data) => {
+      const user = JSON.parse(localStorage.getItem('user'));
+      let results = await fetch(`/api/post/create`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'token': user?._id?.toString()
+        },
+        body: JSON.stringify(data)
+      });
+
+      return await results.json();
   }
+
+  // const createPost = async (data) => {
+  //   // if (id) {
+  //   //   Post({ path: 'post', data, method: 'POST' });
+  //   //   console.log("dada", Post().data);
+  //   // } else {
+  //   //   Post({ path: 'post/posts', data, method: 'POST' });
+  //   // }
+  //   if (id) {
+  //     const user = JSON.parse(localStorage.getItem('user'));
+  //     let results = await fetch(`/api/post`, {
+  //       method: "POST",
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'token': user?._id?.toString()
+  //       },
+  //       body: JSON.stringify(data)
+  //     });
+
+  //     return await results.json();
+  //   } else {
+  //     const user = JSON.parse(localStorage.getItem('user'));
+  //     let results = await fetch(`/api/post/create`, {
+  //       method: "POST",
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'token': user?._id?.toString()
+  //       },
+  //       body: JSON.stringify(data)
+  //     });
+
+  //     return await results.json();
+  //   }
+  //   // const user = JSON.parse(localStorage.getItem('user'));
+  //   // let results = await fetch(`/api/${id ? '/post' : '/post/posts' }`, {
+  //   //   method: "POST",
+  //   //   headers: {
+  //   //     'Content-Type': 'application/json',
+  //   //     'token': user?._id?.toString()
+  //   //   },
+  //   //   body: JSON.stringify(data)
+  //   // });
+
+  //   // return await results.json();
+  // };
 
   // const [editorState, setEditorState] = useState(
   //   () => EditorState.createEmpty(),
@@ -70,45 +170,40 @@ const NewPost = ({ notify, posts }) => {
     },
   };
 
-  
-  if (id) {
-    itemData = postsData?.find(o => o._id === id);
-    itemData['publishedAt'] = moment(itemData.publishedAt);
-    form.setFieldsValue({ ...itemData, headings: ['1', '2'] });
-    console.log("data", itemData);
-  };
-
   const onFinish = async (values) => {
     values['publishedAt'] = moment(values.publishedAt).valueOf();
-    
-    const { success, message } = await createPost(values);
-    
-    if (success) {
-      notify("Successfull", message, 'success');
-    } else if (id) {
+
+    if (id) {
+      values["postId"] = id;
+      const { success, message } = await updatePost(values);
+        // const { success, message } = await Post({ path: '/path/update', data: data, method: 'POST' });
+      console.log(success, message);
       if (success) {
         notify("Successfull", message, 'success');
       } else {
         notify("Error", message, 'error');
       }
     } else {
-      notify("Error", message, 'error');
+      const { success, message } = await createPost(values);
+        // const { success, message } = await Post({ path: '/path/create', data: data, method: 'POST' });
+      if (success) {
+        notify("Successfull", message, 'success');
+      } else {
+        notify("Error", message, 'error');
+      }
     }
   };
-
-  const options = [
-    { label: 'Heading 1 (h1)', value: '1' },
-    { label: 'Heading 2 (h2)', value: '2' },
-    { label: 'Heading 3 (h3)', value: '3' },
-    { label: 'Heading 4 (h4)', value: '4' },
-    { label: 'Heading 5 (h5)', value: '5' },
-    { label: 'Heading 6 (h6)', value: '6' },
-  ];
 
   return (
     <div className="new-post-page">
       {/* Main Banner */}
-      <MainBanner title={id ? 'Edit Post' : 'Add New Post'} />
+      <div className="main-banner new-post-banner">
+        <div className="container">
+          <div className="caption">
+            <h1 className="title">{id ? 'Edit Post' : 'Add New Post'}</h1>
+          </div>
+        </div>
+      </div>
       {/* Main Banner End */}
       {/* New Post Content */}
       <Form
@@ -294,36 +389,12 @@ const NewPost = ({ notify, posts }) => {
                       <h3 className="title">Headings:</h3>
                       <Form.Item
                         name="headings"
-                        valuePropName="checked"
-                        // getValueProps={(e) => console.log("checkbox value", e)}
                         wrapperCol={{
                           span: 24,
                         }}
                         className="mr-0"
                       >
-                        <Checkbox.Group options={options} />
-                        {/* <Checkbox.Group className="w-100">
-                          <Row gutter={[15, 15]}>
-                            <Col span={24}>
-                              <Checkbox value="1">Heading 1 (h1)</Checkbox>
-                            </Col>
-                            <Col span={24}>
-                              <Checkbox value="2">Heading 2 (h2)</Checkbox>
-                            </Col>
-                            <Col span={24}>
-                              <Checkbox value="3">Heading 3 (h3)</Checkbox>
-                            </Col>
-                            <Col span={24}>
-                              <Checkbox value="4">Heading 4 (h4)</Checkbox>
-                            </Col>
-                            <Col span={24}>
-                              <Checkbox value="5">Heading 5 (h5)</Checkbox>
-                            </Col>
-                            <Col span={24}>
-                              <Checkbox value="6">Heading 6 (h6)</Checkbox>
-                            </Col>
-                          </Row>
-                        </Checkbox.Group> */}
+                        <Checkbox.Group options={options}  />
                       </Form.Item>
                     </div>
                   </Col>
@@ -373,12 +444,3 @@ const NewPost = ({ notify, posts }) => {
 };
 
 export default NewPost;
-
-export async function getStaticProps() {
-  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/post`);
-  const posts = await res.json();
-
-  return {
-    props: { posts } // props will be passed to the page
-  };
-}

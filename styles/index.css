@@ -2001,12 +2001,15 @@ h6 {
 .ant-btn.ant-btn-background-ghost.ant-btn-primary .anticon {
   color: #007eff !important;
 }
-.ant-btn.ant-btn-background-ghost.ant-btn-primary:hover {
+.ant-btn.ant-btn-background-ghost.ant-btn-primary:hover,
+.ant-btn.ant-btn-background-ghost.ant-btn-primary:focus {
   background: #007eff !important;
   color: #fff;
 }
 .ant-btn.ant-btn-background-ghost.ant-btn-primary:hover .icon,
-.ant-btn.ant-btn-background-ghost.ant-btn-primary:hover .anticon {
+.ant-btn.ant-btn-background-ghost.ant-btn-primary:focus .icon,
+.ant-btn.ant-btn-background-ghost.ant-btn-primary:hover .anticon,
+.ant-btn.ant-btn-background-ghost.ant-btn-primary:focus .anticon {
   color: #fff !important;
 }
 .ant-btn.ant-btn-background-ghost.ant-btn-danger {
@@ -2017,12 +2020,15 @@ h6 {
 .ant-btn.ant-btn-background-ghost.ant-btn-danger .anticon {
   color: #FF4359 !important;
 }
-.ant-btn.ant-btn-background-ghost.ant-btn-danger:hover {
+.ant-btn.ant-btn-background-ghost.ant-btn-danger:hover,
+.ant-btn.ant-btn-background-ghost.ant-btn-danger:focus {
   background: #FF4359 !important;
   color: #fff;
 }
 .ant-btn.ant-btn-background-ghost.ant-btn-danger:hover .icon,
-.ant-btn.ant-btn-background-ghost.ant-btn-danger:hover .anticon {
+.ant-btn.ant-btn-background-ghost.ant-btn-danger:focus .icon,
+.ant-btn.ant-btn-background-ghost.ant-btn-danger:hover .anticon,
+.ant-btn.ant-btn-background-ghost.ant-btn-danger:focus .anticon {
   color: #fff !important;
 }
 .ant-btn.ant-btn-background-ghost.ant-btn-success {
@@ -2033,12 +2039,15 @@ h6 {
 .ant-btn.ant-btn-background-ghost.ant-btn-success .anticon {
   color: #00ECC2 !important;
 }
-.ant-btn.ant-btn-background-ghost.ant-btn-success:hover {
+.ant-btn.ant-btn-background-ghost.ant-btn-success:hover,
+.ant-btn.ant-btn-background-ghost.ant-btn-success:focus {
   background: #00ECC2 !important;
   color: #fff;
 }
 .ant-btn.ant-btn-background-ghost.ant-btn-success:hover .icon,
-.ant-btn.ant-btn-background-ghost.ant-btn-success:hover .anticon {
+.ant-btn.ant-btn-background-ghost.ant-btn-success:focus .icon,
+.ant-btn.ant-btn-background-ghost.ant-btn-success:hover .anticon,
+.ant-btn.ant-btn-background-ghost.ant-btn-success:focus .anticon {
   color: #fff !important;
 }
 .ant-btn.ant-btn-background-ghost.ant-btn-warning {
@@ -2049,12 +2058,15 @@ h6 {
 .ant-btn.ant-btn-background-ghost.ant-btn-warning .anticon {
   color: #FFD75F !important;
 }
-.ant-btn.ant-btn-background-ghost.ant-btn-warning:hover {
+.ant-btn.ant-btn-background-ghost.ant-btn-warning:hover,
+.ant-btn.ant-btn-background-ghost.ant-btn-warning:focus {
   background: #FFD75F !important;
   color: #fff;
 }
 .ant-btn.ant-btn-background-ghost.ant-btn-warning:hover .icon,
-.ant-btn.ant-btn-background-ghost.ant-btn-warning:hover .anticon {
+.ant-btn.ant-btn-background-ghost.ant-btn-warning:focus .icon,
+.ant-btn.ant-btn-background-ghost.ant-btn-warning:hover .anticon,
+.ant-btn.ant-btn-background-ghost.ant-btn-warning:focus .anticon {
   color: #fff !important;
 }
 .ant-btn.ant-btn-background-ghost.ant-btn-secondary {
@@ -2065,12 +2077,15 @@ h6 {
 .ant-btn.ant-btn-background-ghost.ant-btn-secondary .anticon {
   color: #00CFFF !important;
 }
-.ant-btn.ant-btn-background-ghost.ant-btn-secondary:hover {
+.ant-btn.ant-btn-background-ghost.ant-btn-secondary:hover,
+.ant-btn.ant-btn-background-ghost.ant-btn-secondary:focus {
   background: #00CFFF !important;
   color: #fff;
 }
 .ant-btn.ant-btn-background-ghost.ant-btn-secondary:hover .icon,
-.ant-btn.ant-btn-background-ghost.ant-btn-secondary:hover .anticon {
+.ant-btn.ant-btn-background-ghost.ant-btn-secondary:focus .icon,
+.ant-btn.ant-btn-background-ghost.ant-btn-secondary:hover .anticon,
+.ant-btn.ant-btn-background-ghost.ant-btn-secondary:focus .anticon {
   color: #fff !important;
 }
 .ant-btn.ant-btn-background-ghost.ant-btn-link {

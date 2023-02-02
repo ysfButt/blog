@@ -3,10 +3,6 @@ import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
 import { EditFilled, StarFilled, DeleteFilled } from '@ant-design/icons';
 import moment from 'moment';
 import { useRouter } from "next/router";
-import qs from 'qs';
-
-// Components
-import MainBanner from "../../../components/MainBanner";
 
 const PostsList = ({ notify, posts }) => {
 
@@ -27,7 +23,7 @@ const PostsList = ({ notify, posts }) => {
   }, [router.query.post]);
 
   const postId = async (data) => {
-    let results = await fetch(`/api/post`, {
+    let results = await fetch(`/api/post/delete`, {
       method: "DELETE",
       headers: {
         'Content-Type': 'application/json',
@@ -39,7 +35,7 @@ const PostsList = ({ notify, posts }) => {
   }
 
   const updatePost = async (data) => {
-    let results = await fetch(`/api/post`, {
+    let results = await fetch(`/api/post/update`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -90,10 +86,10 @@ const PostsList = ({ notify, posts }) => {
             <Button type="primary" ghost icon={<EditFilled />} onClick={() => editPost(record)} />
           </Tooltip>
           <Tooltip title="Publish Post" placement="topRight">
-            <Button type="warning" ghost={record?.isPublished ? true : false} icon={<StarFilled />} onClick={() => publishedPost(record)} />
+            <Button type="warning" ghost={record?.isPublished} icon={<StarFilled />} onClick={() => publishedPost(record)} />
           </Tooltip>
           <Tooltip title="Favorite Post" placement="topRight">
-            <Button type="success" ghost={record?.isStarred ? true : false} icon={<StarFilled />} onClick={() => starredPost(record)} />
+            <Button type="success" ghost={record?.isStarred} icon={<StarFilled />} onClick={() => starredPost(record)} />
           </Tooltip>
           <Popconfirm
             placement="rightTop"
@@ -120,10 +116,7 @@ const PostsList = ({ notify, posts }) => {
         query: { id: record._id },
         shallow: true,
       });
-    } 
-    // else {
-    //   notify("Error", "Post ID is not valid!", 'error');
-    // }
+    }
   };
 
   const deletePost = async (record) => {
@@ -177,7 +170,7 @@ const PostsList = ({ notify, posts }) => {
 export default PostsList;
 
 export async function getStaticProps() {
-  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/post`);
+  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/post/posts`);
   const posts = await res.json();
 
   return {

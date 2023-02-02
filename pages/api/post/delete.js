@@ -11,15 +11,15 @@ export default async (req, res) => {
   await dbConnect();
 
   switch (method) {
-    case 'POST':
+    case 'DELETE':
       try {
-        const _id = req?.body?.postId;
-        const post = await Post.findOne({ _id }).exec();
-        res.send({ success: true, message: "Post get successfully!", post });
+        const id = { _id: req?.body };
+        const post = await Post.deleteOne(id);
+        res.send({ success: true, message: "Post deleted successfully!", data: post });
       } catch (error) {
         res.status(400).json({ success: false, message: error?.message })
       }
-      break
+      break;
     default:
       res.status(400).json({ success: false })
       break

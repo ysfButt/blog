@@ -13,9 +13,15 @@ export default async (req, res) => {
   switch (method) {
     case 'POST':
       try {
-        const _id = req?.body?.postId;
-        const post = await Post.findOne({ _id }).exec();
-        res.send({ success: true, message: "Post get successfully!", post });
+        if (req?.body?._id) {
+          const id = { _id: req?.body?._id };
+          const post = await Post.findOneAndUpdate(id, req?.body, { new: true });
+          res.send({ success: true, message: "Post item successfully!", data: post });
+        } else {
+          const id = { _id: req?.body?.postId };
+          const post = await Post.findOneAndUpdate(id, req?.body, { new: true });
+          res.send({ success: true, message: "Post updated successfully!", data: post });
+        }
       } catch (error) {
         res.status(400).json({ success: false, message: error?.message })
       }
