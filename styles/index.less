@@ -1366,6 +1366,7 @@ h6 {
 }
 .post-card {
   color: @normal-color;
+  min-height: 470px;
   .post-img {
     margin-bottom: @margin-sm + 3;
   }
@@ -1374,6 +1375,11 @@ h6 {
     font-size: @font-size-lg + 2;
     line-height: @line-height-base + 5;
     margin-bottom: @margin-md + 4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* number of lines to show */
+    -webkit-box-orient: vertical;
   }
 }
 .post-card-head {
@@ -1389,6 +1395,10 @@ h6 {
     line-height: @line-height-base + 20;
     font-weight: 500 !important;
     margin-bottom: @margin-sm + 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
     @media (max-width: 1200px) {
       font-size: @font-size-lg + 12;
       line-height: @line-height-base + 18;

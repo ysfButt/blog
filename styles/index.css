@@ -2657,6 +2657,7 @@ h6 {
 }
 .post-card {
   color: #929292;
+  min-height: 470px;
 }
 .post-card .post-img {
   margin-bottom: 15px;
@@ -2666,6 +2667,12 @@ h6 {
   font-size: 18px;
   line-height: 25px;
   margin-bottom: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  /* number of lines to show */
+  -webkit-box-orient: vertical;
 }
 .post-card-head .category {
   font-size: 16px;
@@ -2679,6 +2686,11 @@ h6 {
   line-height: 40px;
   font-weight: 500 !important;
   margin-bottom: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  /* number of lines to show */
 }
 @media (max-width: 1200px) {
   .post-card-head .title {

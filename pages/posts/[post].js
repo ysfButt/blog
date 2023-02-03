@@ -2,11 +2,14 @@ import React, { useEffect } from "react";
 import { Row, Col, Avatar } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import moment from 'moment';
 
-const Post = () => {
+// Utils
+import { Get } from "../../utlis/helpers";
 
-  const router = useRouter();
-  const { post } = router.query;
+const Post = ({ notify, posts }) => {
+
+  const post = posts.post;  
 
   // useEffect(() => {
   //   let mainNavLinks = document.querySelectorAll("aside ul li a");
@@ -44,10 +47,10 @@ const Post = () => {
               <div className="post-card">
                 <div className="post-card-head">
                   <span className="category">Cold Email</span>
-                  <h1 className="title">12 Recruiter Email Templates to Win Over Candidates {post}</h1>
+                  <h1 className="title">{post?.title}</h1>
                 </div>
                 <div className="post-card-body">
-                  <p>A candidate’s experience reflects on a company’s brand. That’s why the best companies promote quality and consistent communication as part of the application process to win candidates over.</p>
+                  <p>{post?.description}</p>
                 </div>
                 <div className="post-card-footer">
                   <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
@@ -55,7 +58,7 @@ const Post = () => {
                     <strong className="title">
                       <Link href="/">Raul Kaevand</Link>
                     </strong>
-                    <span className="date">26 Nov 2022</span>
+                    <span className="date">{moment(post?.publishedAt).format('LLL')}</span>
                   </div>
                 </div>
               </div>
@@ -160,3 +163,12 @@ const Post = () => {
 };
 
 export default Post;
+
+export async function getServerSideProps(context) {
+  const queryId = context.query.post;
+  const path = `post/${queryId}`;
+  const posts = await Get(path);
+  return {
+    props: { posts } // props will be passed to the page
+  };
+}
