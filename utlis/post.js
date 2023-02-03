@@ -8,13 +8,8 @@ const Post = async ({ path = '', data, method = '', }) => {
     },
     body: JSON.stringify(data)
   });
-
-  console.log("results", results);
-  console.log("detail", path, data, method);
-
-  await results.json();
-
-  return { data };
+  
+  return await results.json();
 };
 
 export default Post;

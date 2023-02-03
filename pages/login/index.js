@@ -3,6 +3,9 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { useRouter } from "next/router";
 
+// Utils
+import { Post } from "../../utlis/helpers";
+
 const Login = ({ notify }) => {
 
   const router = useRouter();
@@ -11,20 +14,8 @@ const Login = ({ notify }) => {
     if (localStorage.getItem('user')) router.push('/admin/posts');
   }, []);
 
-  const login = async (data) => {
-    const results = await fetch(`/api/user`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
-
-    return await results.json();
-  }
-
   const onFinish = async (values) => {
-    const { success, message, user } = await login(values);
+    const { success, message, user } = await Post({ path: '/user/login', data: values, method: 'POST' });
 
     if (success) {
       localStorage.setItem('user', JSON.stringify(user));
@@ -32,7 +23,6 @@ const Login = ({ notify }) => {
     } else {
       notify("Successfull", message, 'success');
     }
-
   };
 
   return (

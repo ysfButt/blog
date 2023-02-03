@@ -4,6 +4,9 @@ import { EditFilled, StarFilled, DeleteFilled } from '@ant-design/icons';
 import moment from 'moment';
 import { useRouter } from "next/router";
 
+// Utils
+import { Post } from "../../../utlis/helpers";
+
 const PostsList = ({ notify, posts }) => {
 
   // Posts Data
@@ -21,30 +24,6 @@ const PostsList = ({ notify, posts }) => {
   useEffect(() => {
     // The post changed!
   }, [router.query.post]);
-
-  const postId = async (data) => {
-    let results = await fetch(`/api/post/delete`, {
-      method: "DELETE",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data)
-    });
-
-    return await results.json();
-  }
-
-  const updatePost = async (data) => {
-    let results = await fetch(`/api/post/update`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data)
-    });
-
-    return await results.json();
-  }
 
   const columns = [
     {
@@ -120,7 +99,7 @@ const PostsList = ({ notify, posts }) => {
   };
 
   const deletePost = async (record) => {
-    const { success, message } = await postId(record);
+    const { success, message } = await Post({ path: '/post/delete', data: record, method: 'DELETE' })
 
     if (success) {
       notify("Successfull", message, 'success');
@@ -133,14 +112,14 @@ const PostsList = ({ notify, posts }) => {
     setIsPublished(!isPublished);
 
     record['isPublished'] = isPublished;
-    const published = await updatePost(record);
+    const published = await Post({ path: '/post/update', data: record, method: 'POST' });
   };
 
   const starredPost = async (record) => {
     setIsStarred(!isStarred);
 
     record['isStarred'] = isStarred;
-    const starred = await updatePost(record);
+    const starred = await Post({ path: '/post/update', data: record, method: 'POST' });
   };
 
   return (
@@ -170,7 +149,7 @@ const PostsList = ({ notify, posts }) => {
 export default PostsList;
 
 export async function getStaticProps() {
-  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/post/posts`);
+  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/post`);
   const posts = await res.json();
 
   return {

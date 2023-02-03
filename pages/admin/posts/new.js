@@ -5,10 +5,9 @@ import { InboxOutlined } from '@ant-design/icons';
 // import { Editor } from "react-draft-wysiwyg";
 import moment from "moment";
 import { useRouter } from "next/router";
-import qs from 'qs';
 
-// Helper
-import Post from '../../../helpers/post';
+// Utils
+import { Post, Get } from "../../../utlis/helpers";
 
 // Styles
 // import 'draft-js/dist/Draft.css';
@@ -26,7 +25,7 @@ const options = [
   { label: 'Heading 6 (h6)', value: '6' },
 ];
 
-const NewPost = ({ notify }) => {
+const NewPost = ({ notify, posts }) => {
 
   const router = useRouter();
   const id = router?.query?.id;
@@ -40,15 +39,9 @@ const NewPost = ({ notify }) => {
   }, []);
 
   useEffect(() => {
-    const { id } = qs.parse(window.location.search, { ignoreQueryPrefix: true });
     if (id) {
-      let data = {};
-      data['postId'] = id;
-      data['getPost'] = true;
-      console.log("data new", data);
       (async () => {
-        const { success, message, post } = await getPost(data);
-        // const { success, message, post } = await Post({ path: 'post', data: data, method: 'POST' });
+        const { success, message, post } = await posts;
         if (success) {
           post['publishedAt'] = moment(post.publishedAt);
           form.setFieldsValue(post);
@@ -58,93 +51,6 @@ const NewPost = ({ notify }) => {
       })();
     }
   });
-
-  const getPost = async (data) => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    let results = await fetch(`/api/post`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'token': user?._id?.toString()
-      },
-      body: JSON.stringify(data)
-    });
-
-    return await results.json();
-  };
-
-  const updatePost = async (data) => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    let results = await fetch(`/api/post/update`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'token': user?._id?.toString()
-      },
-      body: JSON.stringify(data)
-    });
-
-    return await results.json();
-  };
-
-  const createPost = async (data) => {
-      const user = JSON.parse(localStorage.getItem('user'));
-      let results = await fetch(`/api/post/create`, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'token': user?._id?.toString()
-        },
-        body: JSON.stringify(data)
-      });
-
-      return await results.json();
-  }
-
-  // const createPost = async (data) => {
-  //   // if (id) {
-  //   //   Post({ path: 'post', data, method: 'POST' });
-  //   //   console.log("dada", Post().data);
-  //   // } else {
-  //   //   Post({ path: 'post/posts', data, method: 'POST' });
-  //   // }
-  //   if (id) {
-  //     const user = JSON.parse(localStorage.getItem('user'));
-  //     let results = await fetch(`/api/post`, {
-  //       method: "POST",
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'token': user?._id?.toString()
-  //       },
-  //       body: JSON.stringify(data)
-  //     });
-
-  //     return await results.json();
-  //   } else {
-  //     const user = JSON.parse(localStorage.getItem('user'));
-  //     let results = await fetch(`/api/post/create`, {
-  //       method: "POST",
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'token': user?._id?.toString()
-  //       },
-  //       body: JSON.stringify(data)
-  //     });
-
-  //     return await results.json();
-  //   }
-  //   // const user = JSON.parse(localStorage.getItem('user'));
-  //   // let results = await fetch(`/api/${id ? '/post' : '/post/posts' }`, {
-  //   //   method: "POST",
-  //   //   headers: {
-  //   //     'Content-Type': 'application/json',
-  //   //     'token': user?._id?.toString()
-  //   //   },
-  //   //   body: JSON.stringify(data)
-  //   // });
-
-  //   // return await results.json();
-  // };
 
   // const [editorState, setEditorState] = useState(
   //   () => EditorState.createEmpty(),
@@ -175,8 +81,7 @@ const NewPost = ({ notify }) => {
 
     if (id) {
       values["postId"] = id;
-      const { success, message } = await updatePost(values);
-        // const { success, message } = await Post({ path: '/path/update', data: data, method: 'POST' });
+      const { success, message } = await Post({ path: '/post/update', data: values, method: 'POST' });
       console.log(success, message);
       if (success) {
         notify("Successfull", message, 'success');
@@ -184,8 +89,7 @@ const NewPost = ({ notify }) => {
         notify("Error", message, 'error');
       }
     } else {
-      const { success, message } = await createPost(values);
-        // const { success, message } = await Post({ path: '/path/create', data: data, method: 'POST' });
+      const { success, message } = await Post({ path: '/post/create', data: values, method: 'POST' });
       if (success) {
         notify("Successfull", message, 'success');
       } else {
@@ -444,3 +348,12 @@ const NewPost = ({ notify }) => {
 };
 
 export default NewPost;
+
+export async function getServerSideProps(context) {
+  const queryId = context.query.id;
+  const path = `post/${queryId}`;
+  const posts = await Get(path);
+  return {
+    props: { posts } // props will be passed to the page
+  };
+};

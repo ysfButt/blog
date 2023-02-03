@@ -5,19 +5,18 @@ import Post from '../../../models/post';
 
 export default async (req, res) => {
   const { method, headers } = req;
-  
+
   // if (!headers.token) return res.status(400).json({ success: false, message: 'User not authorised!' });
   
   await dbConnect();
 
   switch (method) {
-    case 'POST':
+    case 'GET':
       try {
-        const _id = req?.body?.postId;
-        const post = await Post.findOne({ _id }).exec();
-        res.send({ success: true, message: "Post get successfully!", post });
+        const post = await Post.find();
+        res.status(200).json({ success: true, data: post })
       } catch (error) {
-        res.status(400).json({ success: false, message: error?.message })
+        res.status(400).json({ success: false })
       }
       break
     default:

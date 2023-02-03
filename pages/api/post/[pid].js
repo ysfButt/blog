@@ -5,6 +5,7 @@ import Post from '../../../models/post';
 
 export default async (req, res) => {
   const { method, headers } = req;
+  const { pid } = req.query;
   
   // if (!headers.token) return res.status(400).json({ success: false, message: 'User not authorised!' });
   
@@ -13,10 +14,11 @@ export default async (req, res) => {
   switch (method) {
     case 'GET':
       try {
-        const post = await Post.find();
-        res.status(200).json({ success: true, data: post })
+        const _id = pid;
+        const post = await Post.findOne({ _id }).exec();
+        res.send({ success: true, message: "Post get successfully!", post });
       } catch (error) {
-        res.status(400).json({ success: false })
+        res.status(400).json({ success: false, message: error?.message })
       }
       break
     default:
