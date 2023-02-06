@@ -14,12 +14,10 @@ export default async (req, res) => {
     case 'POST':
       try {
         if (req?.body?.postId) {
-          console.log("update", req?.body);
           const id = { _id: req?.body?.postId };
           const post = await Post.findOneAndUpdate(id, req?.body, { new: true });
           res.send({ success: true, message: "Post updated successfully!", data: post });
         } else {
-          console.log("item update", req?.body);
           const id = { _id: req?.body?.postId };
           const post = await Post.findOneAndUpdate(id, req?.body, { new: true });
           res.send({ success: true, message: "Post item successfully!", data: post });

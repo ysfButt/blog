@@ -15,7 +15,12 @@ export default async (req, res) => {
     case 'GET':
       try {
         const _id = pid;
-        const post = await Post.findOne({ _id }).exec();
+        // const post = await Post.findOne({ _id }).exec();
+        const post = await Post.findOne({ _id }).populate({
+          path: 'createdBy',
+          strictPopulate: false,
+          select: 'name'
+        }).exec();
         res.send({ success: true, message: "Post get successfully!", post });
       } catch (error) {
         res.status(400).json({ success: false, message: error?.message })

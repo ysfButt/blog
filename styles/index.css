@@ -2628,6 +2628,9 @@ h6 {
 .post-section .ant-divider {
   margin: 40px 0;
 }
+.post-width-card-content .post-card {
+  min-height: 470px;
+}
 .post-width-card-content .post-card-head .title {
   font-size: 22px;
   line-height: 30px;
@@ -2657,7 +2660,6 @@ h6 {
 }
 .post-card {
   color: #929292;
-  min-height: 470px;
 }
 .post-card .post-img {
   margin-bottom: 15px;

@@ -1,6 +1,7 @@
 // models/Posts.js
 
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
+import { User } from '../models/user';
 
 const MetaSchema = new mongoose.Schema({
   title: String,
@@ -34,7 +35,11 @@ const PostSchema = new mongoose.Schema({
   createdAt: Date,
   updatedAt: Date,
   publishedAt: Date,
-  createdBy: mongoose.ObjectId
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  // createdBy: mongoose.ObjectId
 }, { timestamps: true });
 
-module.exports = mongoose.models.Post || mongoose.model('Post', PostSchema)
+module.exports = mongoose.models.Post || mongoose.model('Post', PostSchema);

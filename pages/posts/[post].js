@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
 import { Row, Col, Avatar } from "antd";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import moment from 'moment';
 
 // Utils
-import { Get } from "../../utlis/helpers";
+import { Get } from "../../utils/helpers";
 
-const Post = ({ notify, posts }) => {
+const Post = ({ posts }) => {
 
   const post = posts.post;  
 
@@ -56,7 +55,7 @@ const Post = ({ notify, posts }) => {
                   <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                   <div className="caption">
                     <strong className="title">
-                      <Link href="/">Raul Kaevand</Link>
+                      <Link href="/">{post?.createdBy?.name}</Link>
                     </strong>
                     <span className="date">{moment(post?.publishedAt).format('LLL')}</span>
                   </div>
@@ -165,9 +164,7 @@ const Post = ({ notify, posts }) => {
 export default Post;
 
 export async function getServerSideProps(context) {
-  const queryId = context.query.post;
-  const path = `post/${queryId}`;
-  const posts = await Get(path);
+  const posts = await Get(`post/${context.query.post}`);
   return {
     props: { posts } // props will be passed to the page
   };

@@ -5,7 +5,7 @@ import moment from 'moment';
 import { useRouter } from "next/router";
 
 // Utils
-import { Post } from "../../../utlis/helpers";
+import { Post, Get } from "../../../utils/helpers";
 
 const PostsList = ({ notify, posts }) => {
 
@@ -148,10 +148,8 @@ const PostsList = ({ notify, posts }) => {
 
 export default PostsList;
 
-export async function getStaticProps() {
-  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/post`);
-  const posts = await res.json();
-
+export async function getServerSideProps() {
+  const posts = await Get('post');
   return {
     props: { posts } // props will be passed to the page
   };

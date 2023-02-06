@@ -7,7 +7,7 @@ import moment from "moment";
 import { useRouter } from "next/router";
 
 // Utils
-import { Post, Get } from "../../../utlis/helpers";
+import { Post, Get } from "../../../utils/helpers";
 
 // Styles
 // import 'draft-js/dist/Draft.css';
@@ -35,7 +35,7 @@ const NewPost = ({ notify, posts }) => {
   
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
-    document.getElementById('user-name').innerHTML = user?.email ? user?.email : 'Add User';
+    // document.getElementById('user-name').innerHTML = user?.email ? user?.email : 'Add User';
   }, []);
 
   useEffect(() => {
@@ -285,7 +285,11 @@ const NewPost = ({ notify, posts }) => {
                         <DatePicker />
                       </Form.Item>
                       <h3 className="title publish-title">Publish By:</h3>
-                      <strong className="author-name" id="user-name">Arslan</strong>
+                      {posts?.post?.createdBy ?
+                        <strong className="author-name">{posts?.post?.createdBy?.name}</strong>
+                        :
+                        <strong className="author-name" id="user-name">Arslan</strong>
+                      }
                     </div>
                   </Col>
                   <Col xs={24}>
@@ -350,9 +354,7 @@ const NewPost = ({ notify, posts }) => {
 export default NewPost;
 
 export async function getServerSideProps(context) {
-  const queryId = context.query.id;
-  const path = `post/${queryId}`;
-  const posts = await Get(path);
+  const posts = await Get(`post/${context.query.id}`);
   return {
     props: { posts } // props will be passed to the page
   };

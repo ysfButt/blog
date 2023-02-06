@@ -13,14 +13,18 @@ export default async (req, res) => {
   switch (method) {
     case 'GET':
       try {
-        const post = await Post.find();
-        res.status(200).json({ success: true, data: post })
+        const post = await Post.find().populate({
+          path: 'createdBy',
+          strictPopulate: false,
+          select: 'name'
+        }).exec();
+        res.status(200).json({ success: true, data: post });
       } catch (error) {
-        res.status(400).json({ success: false })
+        res.status(400).json({ success: false });
       }
       break
     default:
-      res.status(400).json({ success: false })
+      res.status(400).json({ success: false });
       break
   }
-}
+};
